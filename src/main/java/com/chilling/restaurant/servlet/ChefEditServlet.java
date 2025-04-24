@@ -33,7 +33,7 @@ public class ChefEditServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             User user = new User();
-            user.setId(Integer.parseInt(request.getParameter("id")));
+            user.setUserId(Integer.parseInt(request.getParameter("id")));
             user.setUsername(request.getParameter("username"));
             user.setFname(request.getParameter("fname"));
             user.setLname(request.getParameter("lname"));

@@ -1,5 +1,6 @@
 package com.chilling.restaurant.servlet;
 
+import com.chilling.restaurant.config.CloudinaryConfig;
 import com.chilling.restaurant.controller.MenuItemController;
 import com.chilling.restaurant.model.MenuItem;
 import com.cloudinary.Cloudinary;
@@ -25,11 +26,7 @@ import java.util.Map;
 )
 public class MenuItemCreateServlet extends HttpServlet {
     
-    private final Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-            "cloud_name", "dgmhg5oi4",
-            "api_key", "466185731953851",
-            "api_secret", "UAK80EwU70sE-YTU0Ujv3sLRAbs"
-    ));
+    private final Cloudinary cloudinary = CloudinaryConfig.getInstance();
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -42,6 +39,7 @@ public class MenuItemCreateServlet extends HttpServlet {
             String itemName = request.getParameter("name");
             String itemType = request.getParameter("type");
             String itemPriceStr = request.getParameter("price");
+            int itemTimeCook = Integer.parseInt(request.getParameter("time"));
 
             if (itemName == null || itemPriceStr == null || itemType == null || itemName.isEmpty() || itemPriceStr.isEmpty()) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You must fill all information");
@@ -69,6 +67,7 @@ public class MenuItemCreateServlet extends HttpServlet {
             newItem.setItemName(itemName);
             newItem.setItemType(itemType);
             newItem.setItemPrice(itemPrice);
+            newItem.setItemTimeCook(itemTimeCook);
             newItem.setItemImgPath(imageUrl);
             newItem.setItemImgPublicId(publicId);
 

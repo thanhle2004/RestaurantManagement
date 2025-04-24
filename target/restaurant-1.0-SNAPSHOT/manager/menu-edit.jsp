@@ -17,7 +17,7 @@
             <input type="hidden" name="id" value="<%= item.getItemId() %>">
             <input type="text" name="name" placeholder="Item Name" value="<%= item.getItemName() %>" required>
             <input type="number" step="0.01" name="price" placeholder="Price" value="<%= item.getItemPrice() %>" required>
-            
+            <input type="number" name="time" placeholder="Time to cook" value="<%= item.getItemTimeCook() %>" required>
             <select name="type">
                 <option value="food" <%= item.getItemType().equals("food") ? "selected" : "" %>>Food</option>
                 <option value="drink" <%= item.getItemType().equals("drink") ? "selected" : "" %>>Drink</option>

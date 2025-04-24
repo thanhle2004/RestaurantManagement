@@ -18,7 +18,7 @@ public class UserDAO {
 
             while (rs.next()) {
                 User user = new User();
-                user.setId(rs.getInt("id"));
+                user.setUserId(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setFname(rs.getString("fname"));
@@ -36,14 +36,14 @@ public class UserDAO {
     public User getUserById(int id) throws SQLException {
         User user = null;
         try (Connection conn = DBUtil.getConnection()) {
-            String sql = "SELECT * FROM users WHERE id = ? ";
+            String sql = "SELECT * FROM users WHERE user_id = ? ";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if(rs.next()) {
                 user = new User();
-                user.setId(rs.getInt("id"));
+                user.setUserId(rs.getInt("user_id"));
                 user.setPassword(rs.getString("password"));
                 user.setUsername(rs.getString("username"));
                 user.setFname(rs.getString("fname"));
@@ -59,13 +59,13 @@ public class UserDAO {
     
     public void updateUser(User user) throws SQLException {
         try (Connection conn = DBUtil.getConnection()) {
-            String sql = "UPDATE users SET fname=?, lname=?, phone=?, role=? WHERE id=?";
+            String sql = "UPDATE users SET fname=?, lname=?, phone=?, role=? WHERE user_id=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, user.getFname());
             stmt.setString(2, user.getLname());
             stmt.setString(3, user.getPhone());
             stmt.setString(4, user.getRole());
-            stmt.setInt(5, user.getId());
+            stmt.setInt(5, user.getUserId());
             stmt.executeUpdate();
                 
             
@@ -75,7 +75,7 @@ public class UserDAO {
     }
     
     public void deleteChef(int id) throws SQLException {
-        String sql = "DELETE FROM users WHERE id = ?";
+        String sql = "DELETE FROM users WHERE user_id = ?";
         try (Connection conn = DBUtil.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);

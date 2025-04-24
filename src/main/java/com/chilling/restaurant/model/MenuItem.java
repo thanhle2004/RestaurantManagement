@@ -5,8 +5,21 @@ public class MenuItem {
     private String itemName;
     private String itemType;
     private double itemPrice;
+    private int itemTimeCook;
     private String itemImgPath;
     private String itemImgPublicId;
+    
+    public MenuItem() {}
+    
+    public MenuItem(int miId, String miName, String miType, double miPrice, int miTimeCook, String miImgPath, String miImgPublicId) {
+        this.itemId = miId;
+        this.itemName = miName;
+        this.itemType = miType;
+        this.itemPrice = miPrice;
+        this.itemTimeCook = miTimeCook;
+        this.itemImgPath = miImgPath;
+        this.itemImgPublicId = miImgPublicId;
+    }
     
     public int getItemId() {
         return itemId;
@@ -22,6 +35,10 @@ public class MenuItem {
     
     public double getItemPrice() {
         return itemPrice;
+    }
+    
+    public int getItemTimeCook() {
+        return itemTimeCook;
     }
     
     public String getItemImgPath() {
@@ -46,6 +63,10 @@ public class MenuItem {
     
     public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
+    }
+    
+    public void setItemTimeCook (int itemTimeCook) {
+        this.itemTimeCook = itemTimeCook;
     }
     
     public void setItemImgPath(String itemImgPath) {

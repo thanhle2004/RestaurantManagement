@@ -8,7 +8,7 @@
 <body>
     <h2>Edit Information</h2>
     <form method="post" action="chef-update">
-        <input type="hidden" name="id" value="<%= user.getId() %>">
+        <input type="hidden" name="id" value="<%= user.getUserId() %>">
         Username: <input type="text" name="username" value="<%= user.getUsername() %>" readonly><br>
         Password: <input type="text" name="password" value="<%= user.getPassword() %>" readonly><br>
         First Name: <input type="text" name="lname" value="<%= user.getLname() %>" required><br>

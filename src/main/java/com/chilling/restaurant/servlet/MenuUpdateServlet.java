@@ -4,6 +4,7 @@
  */
 package com.chilling.restaurant.servlet;
 
+import com.chilling.restaurant.config.CloudinaryConfig;
 import com.chilling.restaurant.controller.MenuItemController;
 import com.chilling.restaurant.model.MenuItem;
 import com.cloudinary.Cloudinary;
@@ -26,11 +27,7 @@ import java.util.Map;
 )
 public class MenuUpdateServlet extends HttpServlet {
 
-    private final Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-            "cloud_name", "dgmhg5oi4",
-            "api_key", "466185731953851",
-            "api_secret", "UAK80EwU70sE-YTU0Ujv3sLRAbs"
-    ));
+    private final Cloudinary cloudinary = CloudinaryConfig.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -40,7 +37,7 @@ public class MenuUpdateServlet extends HttpServlet {
             String itemName = request.getParameter("name");
             String itemType = request.getParameter("type");
             String itemPriceStr = request.getParameter("price");
-
+            int itemTimeCook = Integer.parseInt(request.getParameter("time"));
             // Kiểm tra dữ liệu đầu vào
             if (itemName == null || itemName.isEmpty() || itemType == null || itemType.isEmpty() || itemPriceStr == null || itemPriceStr.isEmpty()) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required fields");
@@ -84,6 +81,7 @@ public class MenuUpdateServlet extends HttpServlet {
             updatedItem.setItemName(itemName);
             updatedItem.setItemType(itemType);
             updatedItem.setItemPrice(itemPrice);
+            updatedItem.setItemTimeCook(itemTimeCook);
             updatedItem.setItemImgPath(imageUrl);
             updatedItem.setItemImgPublicId(publicId);
 

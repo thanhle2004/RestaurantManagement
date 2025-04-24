@@ -1,8 +1,6 @@
 package com.chilling.restaurant.servlet;
 
 import com.chilling.restaurant.dao.UserDAO;
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

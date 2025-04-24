@@ -21,6 +21,7 @@
     <th>Image</th>
     <th>Name</th>
     <th>Price</th>
+    <th>Time Cook</th>
     <th>Action</th>
 </tr>
 <%
@@ -36,6 +37,7 @@
     </td>
     <td><%= food.getItemName() %></td>
     <td><%= food.getItemPrice() %></td>
+    <td><%= food.getItemTimeCook() %></td>
     <td>
         <a href="menu-edit?id=<%= food.getItemId() %>">Edit</a> |
         <a href="menu-delete?id=<%= food.getItemId() %>" onclick="return confirm('Delete this food?')">Delete</a>
@@ -54,6 +56,7 @@
     <th>Image</th>
     <th>Name</th>
     <th>Price</th>
+    <th>Time Cook</th>
     <th>Action</th>
 </tr>
 <%
@@ -67,8 +70,10 @@
         <img src="<%= drink.getItemImgPath() %>" width="100">
 
     </td>
+    
     <td><%= drink.getItemName() %></td>
     <td><%= drink.getItemPrice() %></td>
+    <td><%= drink.getItemTimeCook() %></td>
     <td>
         <a href="menu-edit?id=<%= drink.getItemId() %>">Edit</a> |
         <a href="menu-delete?id=<%= drink.getItemId() %>" onclick="return confirm('Delete this drink?')">Delete</a>

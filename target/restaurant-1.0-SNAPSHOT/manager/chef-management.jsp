@@ -34,8 +34,8 @@
     <td><%= user.getFname() %></td>
     <td><%= user.getPhone() %></td>
     <td>
-        <a href="chef-edit?id=<%= user.getId() %>">Edit</a> |
-        <a href="chef-delete?id=<%= user.getId() %>" onclick="return confirm('Delete this account?')">Delete</a>
+        <a href="chef-edit?id=<%= user.getUserId() %>">Edit</a> |
+        <a href="chef-delete?id=<%= user.getUserId() %>" onclick="return confirm('Delete this account?')">Delete</a>
     </td>
 </tr>
 <%

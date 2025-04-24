@@ -26,7 +26,7 @@ public class ChefUpdateServlet extends HttpServlet {
         String role = request.getParameter("role");
 
         try (Connection conn = DBUtil.getConnection()) {
-            String sql = "UPDATE users SET fname=?, lname=?, phone=?, role=? WHERE id=?";
+            String sql = "UPDATE users SET fname=?, lname=?, phone=?, role=? WHERE user_id=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, fname);
             stmt.setString(2, lname);

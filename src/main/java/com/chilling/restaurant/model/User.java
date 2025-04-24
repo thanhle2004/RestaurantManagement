@@ -1,7 +1,7 @@
 package com.chilling.restaurant.model;
 
 public class User {
-    private int id;
+    private int user_id;
     private String username;
     private String password;
     private String fname;
@@ -11,8 +11,8 @@ public class User {
 
     // Getters & Setters
     
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return user_id;
     }
     
     public String getUsername() {
@@ -39,8 +39,8 @@ public class User {
         return role;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int user_id) {
+        this.user_id = user_id;
     }
 
     public void setUsername(String username) {

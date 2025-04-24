@@ -1,7 +1,7 @@
+<%@page import="com.chilling.restaurant.model.Table"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String tableNumber = (String) session.getAttribute("tableNumber");
-    String status = (String) session.getAttribute("tableStatus");
+    Table table = (Table) session.getAttribute("table");
 %>
 <!DOCTYPE html>
 <html>
@@ -11,8 +11,9 @@
     </head>
     <body>
         <aside>
-            <a href="#Home">Home</a>
-            <a href="table-menu">Menu</a>
+            <h1>Table</h1>
+            <h1><%= table.getTable_number() %></h1>
+            <a href="table-menu">Order</a>
         </aside>
     </body>
 </html>
