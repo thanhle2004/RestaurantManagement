@@ -8,6 +8,8 @@
     List<MenuItem> foodList = (List<MenuItem>) request.getAttribute("foodList");
     List<MenuItem> drinkList = (List<MenuItem>) request.getAttribute("drinkList");
     String totalAmount = (String) session.getAttribute("totalAmount");
+    OrderList orderList = (OrderList) session.getAttribute("orderList");
+    List<OrderItem> orderItems = (List<OrderItem>) session.getAttribute("orderItems");
     
     String message = request.getParameter("message");
     String error = request.getParameter("error");
@@ -54,8 +56,7 @@
     
     <h2>Your Order</h2>
     <%
-        OrderList orderList = (OrderList) session.getAttribute("orderList");
-        if (orderList != null && orderList.getItems() != null && !orderList.getItems().isEmpty()) {
+        if (orderList != null && orderItems != null) {
     %>
     <form action="submit-order" method="post">
         <table border="1">
@@ -68,7 +69,7 @@
                 <th>Action</th>
             </tr>
         <%
-            for (OrderItem item : orderList.getItems()) {
+            for (OrderItem item : orderItems) {
         %>
             <tr>
                 <td><img src="<%= item.getItem().getItemImgPath() %>" width="80" height="80" alt="alt"/></td>

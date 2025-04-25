@@ -12,6 +12,8 @@ public class OrderItem {
         this.item = item;
         this.quantity = quantity;
     }
+
+    public OrderItem() {}
     
     public int getOrderItem_id() {
         return orderItem_id;

@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class OrderItemDAO {
+    private MenuDAO menuDAO = new MenuDAO();
+    
     public List<OrderItem> getItemsByOrderListId(int orderListId) {
         List<OrderItem> items = new ArrayList<>();
         String sql = "SELECT oi.oitem_id, oi.olist_id, oi.quantity, " +
@@ -47,6 +49,28 @@ public class OrderItemDAO {
         }
         return items;
     }
+    
+    public OrderItem getOrderItemById(int orderItemId) {
+        OrderItem item = null;
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT * FROM orderitem WHERE oitem_id = ?")) {
+            ps.setInt(1, orderItemId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    item = new OrderItem();
+                    item.setOrderItem_id(rs.getInt("oitem_id"));
+                    item.setOrderItemQuantity(rs.getInt("quantity"));
+                    item.setItem(menuDAO.getItemById(rs.getInt("mi_id")));
+                    item.setOrderList_id(rs.getInt("olist_id"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return item;
+    } 
     
     public double getTotalAmountByOrderListId(int orderListId) throws SQLException {
         double totalAmount = 0;

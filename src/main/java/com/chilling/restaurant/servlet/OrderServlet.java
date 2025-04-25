@@ -25,8 +25,8 @@ public class OrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         Table table = (Table) session.getAttribute("table");
-        
-        if(table == null) {
+
+        if (table == null) {
             response.sendRedirect("table-login");
             return;
         }
@@ -35,6 +35,7 @@ public class OrderServlet extends HttpServlet {
         OrderItemDAO orderItemDAO = new OrderItemDAO();
 
         OrderList orderList = orderListDAO.getPendingOrderListByTableId(table.getTable_id());
+
         if (orderList == null) {
             int orderListId = orderListDAO.createOrderList(table.getTable_id());
             orderList = new OrderList(orderListId, table.getTable_id(), "pending");
@@ -54,24 +55,40 @@ public class OrderServlet extends HttpServlet {
         item.setItemTimeCook(timeCook);
 
         OrderItem existingItem = orderItemDAO.getOrderItemByListIdAndItemId(orderList.getOrderList_id(), id);
-        
+
+        boolean isPending = "pending".equalsIgnoreCase(orderList.getOrderStatus());
+
         if (existingItem != null) {
-            existingItem.setOrderItemQuantity(existingItem.getOrderItemQuantity() + 1);
-            orderItemDAO.updateOrderItemQuantity(existingItem.getOrderList_id(), existingItem.getOrderItem_id(), existingItem.getOrderItemQuantity());
+            int previousQuantity = existingItem.getOrderItemQuantity();
+            int newQuantity = previousQuantity + 1;
+
+            if (isPending || newQuantity >= previousQuantity) {
+                // cho phép cập nhật nếu đơn còn pending hoặc đang tăng số lượng
+                existingItem.setOrderItemQuantity(newQuantity);
+                orderItemDAO.updateOrderItemQuantity(
+                    existingItem.getOrderList_id(),
+                    existingItem.getOrderItem_id(),
+                    newQuantity
+                );
+            } else {
+                session.setAttribute("error", "Không thể giảm số lượng món đã gọi!");
+            }
         } else {
+            // Món chưa từng gọi → thêm mới
             OrderItem newItem = new OrderItem(0, orderList.getOrderList_id(), item, 1);
             orderItemDAO.insertOrderItem(newItem);
         }
-        
-        
+
         List<OrderItem> items = orderItemDAO.getItemsByOrderListId(orderList.getOrderList_id());
         orderList.setItems(items);
+
         try {
             double totalAmount = orderItemDAO.getTotalAmountByOrderListId(orderList.getOrderList_id());
             session.setAttribute("totalAmount", String.format("%.2f", totalAmount));
         } catch (SQLException ex) {
             Logger.getLogger(OrderServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         session.setAttribute("orderList", orderList);
         session.setAttribute("orderItems", items);
 

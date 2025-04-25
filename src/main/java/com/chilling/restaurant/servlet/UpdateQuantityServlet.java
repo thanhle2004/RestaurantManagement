@@ -5,6 +5,7 @@
 package com.chilling.restaurant.servlet;
 
 import com.chilling.restaurant.dao.OrderItemDAO;
+import com.chilling.restaurant.dao.OrderListDAO;
 import com.chilling.restaurant.model.OrderItem;
 import com.chilling.restaurant.model.OrderList;
 import java.io.IOException;
@@ -13,40 +14,39 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 @WebServlet("/update-quantity")
 public class UpdateQuantityServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        OrderList orderList = (OrderList) session.getAttribute("orderList");
-
         int oitem_id = Integer.parseInt(request.getParameter("id"));
         String action = request.getParameter("action");
 
-        if (orderList != null && orderList.getItems() != null) {
+        HttpSession session = request.getSession();
+        OrderList orderList = (OrderList) session.getAttribute("orderList");
+
+        if (orderList != null) {
             int olist_id = orderList.getOrderList_id();
             OrderItemDAO dao = new OrderItemDAO();
 
-            for (OrderItem oi : orderList.getItems()) {
-                if (oi.getOrderItem_id() == oitem_id) {
-                    int quantity = oi.getOrderItemQuantity();
+            // Lấy số lượng hiện tại từ DB
+            OrderItem item = dao.getOrderItemById(oitem_id); // bạn cần thêm method này trong DAO
+            if (item != null) {
+                int quantity = item.getOrderItemQuantity();
 
-                    if ("increase".equals(action)) {
-                        quantity++;
-                    } else if ("decrease".equals(action) && quantity > 1) {
-                        quantity--;
-                    }
-
-                    oi.setOrderItemQuantity(quantity);
-                    dao.updateOrderItemQuantity(olist_id, oitem_id, quantity);
-                    break;
+                if ("increase".equals(action)) {
+                    quantity++;
+                } else if ("decrease".equals(action) && quantity > 1) {
+                    quantity--;
                 }
-            }
 
-            session.setAttribute("orderList", orderList);
+                dao.updateOrderItemQuantity(olist_id, oitem_id, quantity);
+            }
         }
 
+        // Không đụng tới session nữa, chỉ redirect
         response.sendRedirect("table-menu");
     }
 }
+

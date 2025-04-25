@@ -9,15 +9,34 @@
     List<OrderItem> summaryItems = (List<OrderItem>) session.getAttribute("summaryItems");
     String totalAmount = (String) session.getAttribute("summaryTotal");
     OrderList orderList = (OrderList) session.getAttribute("orderList");
+    String error = (String) session.getAttribute("error");
+    if (error != null) {
+        session.removeAttribute("error"); // clear sau khi hiển thị
+    }
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Order Summary</title>
+    <style>
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .status-message {
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
     <h1>Thank you for your order!</h1>
+
+    <% if (error != null) { %>
+        <div class="error"><%= error %></div>
+    <% } %>
 
     <% if (table != null) { %>
         <p><strong>Table:</strong> <%= table.getTable_number() %></p>
@@ -49,18 +68,30 @@
     <% } else { %>
         <p>No order summary available.</p>
     <% } %>
-    
+
     <%
-        String message="";
-        if(orderList.getOrderStatus().equals("pending")) {
-            message = "Your order is sent to chef. Please wait patiently.";
-        } else if(orderList.getOrderStatus().equals("prepared")) {
+        String message;
+        if (orderList.getOrderStatus().equals("pending")) {
+            message = "Your order is sent to the chef. Please wait patiently.";
+        } else if (orderList.getOrderStatus().equals("prepared")) {
             message = "Your order is being prepared. Please wait patiently.";
+        } else if (orderList.getOrderStatus().equals("served")) {
+            message = "Your order has been served. Enjoy your meal!";
         } else {
-            message = "Your order is completed. Enjoy your meal!";
+            message = "Order status: " + orderList.getOrderStatus();
         }
     %>
 
-    <p><%= message %></p>
+    <p class="status-message"><%= message %></p>
+
+    <form action="../table-menu" method="get">
+        <input type="submit" value="Back to Menu">
+    </form>
+
+    <% if (orderList.getOrderStatus().equals("served")) { %>
+        <form action="table-payment" method="post">
+            <input type="submit" value="Proceed to Payment">
+        </form>
+    <% } %>
 </body>
 </html>
