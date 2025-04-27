@@ -11,6 +11,7 @@ com\chilling\restaurant\servlet\MenuItemCreateServlet.class
 com\chilling\restaurant\servlet\UpdateQuantityServlet.class
 com\chilling\restaurant\servlet\MenuItemDeleteServlet.class
 com\chilling\restaurant\servlet\ChefManagementServlet.class
+com\chilling\restaurant\servlet\PaymentServlet.class
 com\chilling\restaurant\utils\AuthUtil.class
 com\chilling\restaurant\servlet\TableManagementServlet.class
 com\chilling\restaurant\dao\TableDAO.class
@@ -27,11 +28,14 @@ com\chilling\restaurant\dao\UserDAO.class
 com\chilling\restaurant\controller\MenuItemController.class
 com\chilling\restaurant\servlet\MenuUpdateServlet.class
 com\chilling\restaurant\model\MenuItem.class
+com\chilling\restaurant\service\QRCodeGenerator.class
 com\chilling\restaurant\servlet\ChefRegisterServlet.class
 com\chilling\restaurant\servlet\ChefUpdateServlet.class
 com\chilling\restaurant\dao\MenuDAO.class
+com\chilling\restaurant\servlet\VNPayPaymentServlet.class
 com\chilling\restaurant\config\CloudinaryConfig.class
 com\chilling\restaurant\servlet\RemoveFromOrderServlet.class
+com\chilling\restaurant\config\VNPayConfig.class
 com\chilling\restaurant\model\User.class
 com\chilling\restaurant\servlet\ChefEditServlet.class
 com\chilling\restaurant\servlet\RestaurantLoginServlet.class

@@ -88,10 +88,17 @@
         <input type="submit" value="Back to Menu">
     </form>
 
-    <% if (orderList.getOrderStatus().equals("served")) { %>
-        <form action="table-payment" method="post">
-            <input type="submit" value="Proceed to Payment">
-        </form>
+    <% if (orderList.getOrderStatus().equals("pending")) { 
+        String raw = totalAmount.replace(",", ".");
+        Double amt = Double.parseDouble(raw);
+        int amount = (int) (amt * 100);
+    %>
+    <form action="submitOrder" method="post">
+        <input type="hidden" name="orderInfo" id="orderInfo" value="Thanh toan don hang <%= orderList.getOrderList_id() %>" />
+        <input type="hidden" name="amount" id="amount" value="<%= amount %>" />
+        <button type="submit">Proceed to Payment</button>
+    </form>
     <% } %>
+    
 </body>
 </html>
