@@ -91,7 +91,12 @@
     <% if (orderList.getOrderStatus().equals("pending")) { 
         String raw = totalAmount.replace(",", ".");
         Double amt = Double.parseDouble(raw);
-        int amount = (int) (amt * 100);
+        int amountInUSD = (int) (amt * 100);
+
+        double exchangeRate = 23500; 
+        double amountInVND = amt * exchangeRate;
+
+        int amount = (int) (amountInVND * 100);
     %>
     <form action="submitOrder" method="post">
         <input type="hidden" name="orderInfo" id="orderInfo" value="Thanh toan don hang <%= orderList.getOrderList_id() %>" />

@@ -40,7 +40,7 @@ public class VNPayPaymentServlet extends HttpServlet {
         vnp_Params.put("vnp_Command", VNPayConfig.vnp_Command);
         vnp_Params.put("vnp_TmnCode", VNPayConfig.vnp_TmnCode);
         vnp_Params.put("vnp_Amount", vnp_Amount);
-        vnp_Params.put("vnp_CurrCode", "USD");
+        vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", vnp_OrderInfo);
         vnp_Params.put("vnp_OrderType", "other");
@@ -55,7 +55,7 @@ public class VNPayPaymentServlet extends HttpServlet {
         // Cộng thêm 15 phút
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.MINUTE, 15);
+        calendar.add(Calendar.MINUTE, 5);
         Date expireDate = calendar.getTime();
         String vnp_ExpireDate = formatter.format(expireDate);
 

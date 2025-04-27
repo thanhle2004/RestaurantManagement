@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.chilling.restaurant.config;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +15,7 @@ public class VNPayConfig {
     public static String vnp_TmnCode = "NP7AX2ZW";  // Mã Website trên VNPAY
     public static String vnp_HashSecret = "VIOD50766ZQ01DZWD5JGMO3L0I3PCRZX"; // Chuỗi bí mật
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"; // URL VNPAY
-    public static String vnp_ReturnUrl = "http://localhost:8080/yourProjectPath/vnpay-return.jsp"; // URL người dùng sẽ quay về sau thanh toán
+    public static String vnp_ReturnUrl = "http://localhost:8080/restaurant/table/vnpay-return.jsp"; // URL người dùng sẽ quay về sau thanh toán
     
     public static String getIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-FORWARDED-FOR");
@@ -30,7 +26,6 @@ public class VNPayConfig {
     }
     
     public static String hashAllFields(Map<String, String> fields) throws UnsupportedEncodingException {
-        // Sort fields by key
         List<String> fieldNames = new ArrayList<>(fields.keySet());
         Collections.sort(fieldNames);
 
@@ -52,7 +47,7 @@ public class VNPayConfig {
                 query.append('&');
             }
         }
-        // Remove last '&'
+
         if (hashData.length() > 0) {
             hashData.deleteCharAt(hashData.length() - 1);
         }
@@ -60,11 +55,19 @@ public class VNPayConfig {
             query.deleteCharAt(query.length() - 1);
         }
 
+        // Debugging: In ra giá trị hashData
+        System.out.println("Hash Data: " + hashData.toString());
+
         String secureHash = hmacSHA512(vnp_HashSecret, hashData.toString());
+
+        // Debugging: In ra giá trị mã băm
+        System.out.println("Secure Hash: " + secureHash);
+
         query.append("&vnp_SecureHash=").append(secureHash);
 
         return query.toString();
     }
+
 
     public static String hmacSHA512(String key, String data) {
         try {
@@ -87,4 +90,3 @@ public class VNPayConfig {
         }
     }
 }
-

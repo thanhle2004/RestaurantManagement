@@ -1,11 +1,14 @@
+<%@ page import="com.chilling.restaurant.config.VNPayConfig" %>
 <%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%
+    // Begin process return from VNPAY
     Map<String, String> fields = new HashMap<>();
-    for (Enumeration<?> params = request.getParameterNames(); params.hasMoreElements();) {
-        String fieldName = (String) params.nextElement();
+    for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements();) {
+        String fieldName = params.nextElement();
         String fieldValue = request.getParameter(fieldName);
-        if ((fieldValue != null) && (fieldValue.length() > 0)) {
+        if (fieldValue != null && fieldValue.length() > 0) {
             fields.put(fieldName, fieldValue);
         }
     }
@@ -18,13 +21,21 @@
         fields.remove("vnp_SecureHash");
     }
 
-    String signValue = com.chilling.restaurant.config.VNPayConfig.hmacSHA512(com.chilling.restaurant.config.VNPayConfig.vnp_HashSecret, 
-        fields.entrySet().stream()
-            .sorted(Map.Entry.comparingByKey())
-            .map(e -> e.getKey() + "=" + e.getValue())
-            .reduce((a, b) -> a + "&" + b)
-            .orElse("")
-    );
+    // Calculate hash from fields
+    String signValue = VNPayConfig.hashAllFields(fields);
+    System.out.println("signValue: " + signValue);
+    System.out.println("vnp_SecureHash: " + vnp_SecureHash);
+    
+    boolean isValidSignature = signValue.equals(vnp_SecureHash);
+
+    String responseCode = request.getParameter("vnp_ResponseCode");
+    String message = "";
+   
+    if (!"00".equals(responseCode)) {
+        message = "Unsuccessful. Error Code: " + responseCode;
+    } else {
+        message = "Successful!";
+    }
 %>
 
 <html>
@@ -34,18 +45,10 @@
 <body>
     <h1>Payment Result</h1>
 
-    <%
-    if (signValue.equals(vnp_SecureHash)) {
-        if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
-    %>
-        <p style="color:green;">Giao dịch thành công!</p>
-    <%  } else { %>
-        <p style="color:red;">Giao dịch không thành công. Mã lỗi: <%= request.getParameter("vnp_ResponseCode") %></p>
-    <%  }
-    } else { %>
-        <p style="color:red;">Xác thực không hợp lệ!</p>
-    <% } %>
+    <p style="<%= isValidSignature ? (responseCode.equals("00") ? "color:green;" : "color:red;") : "color:red;" %>">
+        <%= message %>
+    </p>
 
-    <a href="/your-project/table-menu">Quay lại Menu</a>
+    <a href="/table-login">Back To Home</a>
 </body>
 </html>
