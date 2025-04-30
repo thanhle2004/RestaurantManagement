@@ -1,3 +1,4 @@
+<%@page import="com.chilling.restaurant.model.Meal"%>
 <%@page import="com.chilling.restaurant.model.OrderItem"%>
 <%@page import="com.chilling.restaurant.model.OrderList"%>
 <%@page import="com.chilling.restaurant.model.Table"%>
@@ -5,6 +6,7 @@
 <%@page import="java.util.List"%>
 <%
     Table table = (Table) session.getAttribute("table");
+    Meal meal = (Meal) session.getAttribute("meal");
     List<MenuItem> foodList = (List<MenuItem>) request.getAttribute("foodList");
     List<MenuItem> drinkList = (List<MenuItem>) request.getAttribute("drinkList");
     String totalAmount = (String) session.getAttribute("totalAmount");

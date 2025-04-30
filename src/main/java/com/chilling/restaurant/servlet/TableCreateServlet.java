@@ -1,6 +1,5 @@
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.TableController;
 import com.chilling.restaurant.dao.TableDAO;
 import com.chilling.restaurant.model.Table;
 import java.io.IOException;
@@ -19,7 +18,6 @@ public class TableCreateServlet extends HttpServlet {
 
         int type = Integer.parseInt(request.getParameter("type"));
         try {
-            TableController tableController = new TableController();
             TableDAO tableDAO = new TableDAO();
             Table newTable = new Table();
             newTable.setTable_type(type);

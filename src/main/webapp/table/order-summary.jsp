@@ -1,3 +1,4 @@
+<%@page import="com.chilling.restaurant.model.Meal"%>
 <%@page import="com.chilling.restaurant.model.OrderList"%>
 <%@page import="com.chilling.restaurant.model.OrderItem"%>
 <%@page import="com.chilling.restaurant.model.Table"%>
@@ -6,6 +7,7 @@
 
 <%
     Table table = (Table) session.getAttribute("table");
+    Meal meal = (Meal) session.getAttribute("meal");
     List<OrderItem> summaryItems = (List<OrderItem>) session.getAttribute("summaryItems");
     String totalAmount = (String) session.getAttribute("summaryTotal");
     OrderList orderList = (OrderList) session.getAttribute("orderList");
@@ -100,6 +102,7 @@
     %>
     <form action="submitOrder" method="post">
         <input type="hidden" name="orderInfo" id="orderInfo" value="Thanh toan don hang <%= orderList.getOrderList_id() %>" />
+        <input type="hidden" name="orderId" value="<%= orderList.getOrderList_id() %>" />
         <input type="hidden" name="amount" id="amount" value="<%= amount %>" />
         <button type="submit">Proceed to Payment</button>
     </form>

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class OrderList {
     private int orderList_id;
-    private int table_id;
     private String order_status;
     private LocalDateTime createdTime;
     private List<OrderItem> items = new ArrayList<>();
@@ -14,9 +13,8 @@ public class OrderList {
 
     public OrderList() {}
 
-    public OrderList(int orderList_id, int table_id, String order_status) {
+    public OrderList(int orderList_id, String order_status) {
         this.orderList_id = orderList_id;
-        this.table_id = table_id;
         this.order_status = order_status;
     }
 
@@ -26,14 +24,6 @@ public class OrderList {
 
     public void setOrderList_id(int orderList_id) {
         this.orderList_id = orderList_id;
-    }
-
-    public int getTable_id() {
-        return table_id;
-    }
-
-    public void setTable_id(int table_id) {
-        this.table_id = table_id;
     }
 
     public String getOrderStatus() {

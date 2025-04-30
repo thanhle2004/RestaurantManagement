@@ -11,17 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderListDAO {
-    public OrderList getOrderListByTableId(int tableId) throws SQLException{
+    public OrderList getOrderListByOrderListId(int orderListId) throws SQLException{
         String sql = "SELECT * FROM OrderList WHERE table_id=?";
         try (Connection con = DBUtil.getConnection())  {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, tableId);
+            ps.setInt(1, orderListId);
             ResultSet rs = ps.executeQuery();
             
             if (rs.next()){
                 return new OrderList(
                     rs.getInt("olist_id"),
-                    rs.getInt("table_id"),
                     rs.getString("order_status")
                 );
             }
@@ -32,17 +31,16 @@ public class OrderListDAO {
         return null;
     }
 
-    public OrderList getPendingOrderListByTableId(int tableId) {
-        String sql = "SELECT * FROM OrderList WHERE table_id = ? AND order_status = 'pending'";
+    public OrderList getPendingOrderListByOrderListId(int orderListId) {
+        String sql = "SELECT * FROM OrderList WHERE olist_id = ? AND order_status = 'pending'";
         try (Connection con = DBUtil.getConnection(); 
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, tableId);
+            ps.setInt(1, orderListId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new OrderList(
                     rs.getInt("olist_id"),
-                    rs.getInt("table_id"),
                     rs.getString("order_status")
                 );
             }
@@ -52,20 +50,41 @@ public class OrderListDAO {
         return null;
     }
 
-    public int createOrderList(int tableId) {
-        String sql = "INSERT INTO OrderList (table_id, order_status) VALUES (?, 'pending')";
-        try (Connection con = DBUtil.getConnection(); 
-             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            ps.setInt(1, tableId);
-            ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
+    public OrderList createOrderList() throws SQLException {
+        String sql = "INSERT INTO OrderList (order_status) VALUES ('pending')";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                return rs.getInt(1); 
+                int id = rs.getInt(1);
+                OrderList orderList = new OrderList();
+                orderList.setOrderList_id(id);
+                orderList.setOrderStatus("pending");
+                return orderList;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return -1;
+        return null;
+    }
+
+    public OrderList getOrderListById(int olistId) {
+        String sql = "SELECT * FROM OrderList WHERE olist_id = ?";
+        try (Connection con = DBUtil.getConnection(); 
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, olistId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new OrderList(
+                    rs.getInt("olist_id"),
+                    rs.getString("order_status")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

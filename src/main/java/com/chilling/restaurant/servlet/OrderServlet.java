@@ -2,6 +2,7 @@ package com.chilling.restaurant.servlet;
 
 import com.chilling.restaurant.dao.OrderItemDAO;
 import com.chilling.restaurant.dao.OrderListDAO;
+import com.chilling.restaurant.model.Meal;
 import com.chilling.restaurant.model.MenuItem;
 import com.chilling.restaurant.model.OrderItem;
 import com.chilling.restaurant.model.OrderList;
@@ -25,6 +26,7 @@ public class OrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         Table table = (Table) session.getAttribute("table");
+        Meal meal = (Meal) session.getAttribute("meal");
 
         if (table == null) {
             response.sendRedirect("table-login");
@@ -34,11 +36,15 @@ public class OrderServlet extends HttpServlet {
         OrderListDAO orderListDAO = new OrderListDAO();
         OrderItemDAO orderItemDAO = new OrderItemDAO();
 
-        OrderList orderList = orderListDAO.getPendingOrderListByTableId(table.getTable_id());
+        OrderList orderList = orderListDAO.getOrderListById(meal.getOlistId());
 
         if (orderList == null) {
-            int orderListId = orderListDAO.createOrderList(table.getTable_id());
-            orderList = new OrderList(orderListId, table.getTable_id(), "pending");
+            try {
+                OrderList orderListId = orderListDAO.createOrderList();
+            } catch (SQLException ex) {
+                Logger.getLogger(OrderServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
 
         int id = Integer.parseInt(request.getParameter("id"));
@@ -89,6 +95,7 @@ public class OrderServlet extends HttpServlet {
             Logger.getLogger(OrderServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        session.setAttribute("meal", meal);
         session.setAttribute("orderList", orderList);
         session.setAttribute("orderItems", items);
 

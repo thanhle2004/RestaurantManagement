@@ -17,6 +17,7 @@ D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\model\OrderList.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\TableDeleteServlet.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\RestaurantLoginServlet.java
+D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\dao\MealDAO.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\ChefUpdateServlet.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\MenuItemCreateServlet.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\VNPayPaymentServlet.java
@@ -27,11 +28,16 @@ D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\dao\TableDAO.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\config\VNPayConfig.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\RemoveFromOrderServlet.java
+D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\dao\RateDAO.java
+D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\model\Bill.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\model\OrderItem.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\OrderServlet.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\TableLoginServlet.java
+D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\dao\BillDAO.java
+D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\model\Rate.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\model\User.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\TableMenuServlet.java
+D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\SubmitRatingServlet.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\TablePasswordChangeServlet.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\dao\OrderItemDAO.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\dao\OrderListDAO.java
@@ -39,3 +45,4 @@ D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\utils\AuthUtil.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\controller\TableController.java
 D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\servlet\ChefDeleteServlet.java
+D:\IU IT\Y3_S2\Web Application Development Laboratory\NetBeanProject\restaurant\src\main\java\com\chilling\restaurant\model\Meal.java

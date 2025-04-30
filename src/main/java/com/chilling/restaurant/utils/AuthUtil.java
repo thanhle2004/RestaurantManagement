@@ -7,7 +7,7 @@ public class AuthUtil {
         HttpSession session = request.getSession(false);
         String role = (session != null) ? (String) session.getAttribute("role") : null;
         if (role == null || !role.equals(requiredRole)) {
-            response.sendRedirect("access-denied.jsp");
+            response.sendRedirect("/restaurant/access-denied.jsp");
             return false;
         }
         return true;

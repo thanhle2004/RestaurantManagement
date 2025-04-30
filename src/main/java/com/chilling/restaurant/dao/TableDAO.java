@@ -25,6 +25,7 @@ public class TableDAO {
             while (rs.next()) {
                 Table table = new Table();
                 table.setTable_id(rs.getInt("table_id"));
+                table.setOlist_id(rs.getInt("olist_id"));
                 table.setTable_number(rs.getInt("table_number"));
                 table.setTable_type(rs.getInt("table_type"));
                 table.setTable_status(rs.getString("table_status"));
@@ -50,6 +51,7 @@ public class TableDAO {
             while (rs.next()) {
                 Table table = new Table();
                 table.setTable_id(rs.getInt("table_id"));
+                table.setOlist_id(rs.getInt("olist_id"));
                 table.setTable_number(rs.getInt("table_number"));
                 table.setTable_type(rs.getInt("table_type"));
                 table.setTable_status(rs.getString("table_status"));
@@ -74,6 +76,7 @@ public class TableDAO {
             if (rs.next()) {
                 
                 table.setTable_id(rs.getInt("table_id"));
+                table.setOlist_id(rs.getInt("olist_id"));
                 table.setTable_number(rs.getInt("table_number"));
                 table.setTable_type(rs.getInt("table_type"));
                 table.setTable_status(rs.getString("table_status"));
@@ -144,6 +147,18 @@ public class TableDAO {
             String sql = "UPDATE tables SET table_password=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, password);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateTableStatus(String status, int table_id) throws SQLException {
+        try (Connection conn = DBUtil.getConnection()) {
+            String sql = "UPDATE tables SET table_status=? WHERE table_id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, status);
+            stmt.setInt(2, table_id);
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

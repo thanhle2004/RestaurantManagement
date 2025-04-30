@@ -6,6 +6,7 @@ package com.chilling.restaurant.servlet;
 
 import com.chilling.restaurant.dao.OrderItemDAO;
 import com.chilling.restaurant.dao.OrderListDAO;
+import com.chilling.restaurant.model.Meal;
 import com.chilling.restaurant.model.OrderItem;
 import com.chilling.restaurant.model.OrderList;
 import com.chilling.restaurant.model.Table;
@@ -29,8 +30,9 @@ public class SubmitOrderServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             Table table = (Table) session.getAttribute("table");
+            Meal meal = (Meal) session.getAttribute("meal");
             OrderListDAO orderListDAO = new OrderListDAO();
-            OrderList orderList = orderListDAO.getOrderListByTableId(table.getTable_id());
+            OrderList orderList = orderListDAO.getOrderListById(meal.getOlistId());
             OrderItemDAO orderItemDAO = new OrderItemDAO();
             
             if (orderList != null && orderList.getItems() != null) {
@@ -45,6 +47,7 @@ public class SubmitOrderServlet extends HttpServlet {
                 double summaryTotal = orderItemDAO.getTotalAmountByOrderListId(orderList.getOrderList_id());
                 session.setAttribute("summaryTotal", String.format("%.2f", summaryTotal));
                 session.setAttribute("orderList", orderList);
+                session.setAttribute("meal", meal);
                 
                 response.sendRedirect(request.getContextPath() + "/table/order-summary.jsp");
                 

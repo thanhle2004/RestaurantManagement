@@ -13,7 +13,11 @@
         <aside>
             <h1>Table</h1>
             <h1><%= table.getTable_number() %></h1>
-            <a href="table-menu">Order</a>
+            
+            <form action="table-menu" method="get">
+                <input type="hidden" name="action" id="action" value="create-order" />
+                <input type="submit" value="Order" />
+            </form>
         </aside>
     </body>
 </html>
