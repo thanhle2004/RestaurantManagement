@@ -39,6 +39,7 @@ com\chilling\restaurant\servlet\ChefDeleteServlet.class
 com\chilling\restaurant\servlet\TableMenuServlet.class
 com\chilling\restaurant\servlet\MenuManagementServlet.class
 com\chilling\restaurant\dao\OrderListDAO.class
+com\chilling\restaurant\servlet\ViewRecordServlet.class
 com\chilling\restaurant\config\CloudinaryConfig.class
 com\chilling\restaurant\model\Meal.class
 com\chilling\restaurant\servlet\RemoveFromOrderServlet.class

@@ -4,7 +4,10 @@
  */
 package com.chilling.restaurant.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Meal {
     private int mealId;
@@ -13,7 +16,11 @@ public class Meal {
     private int rateId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-
+    private int rating;
+    private String feedback;
+    private BigDecimal amount;
+    private List<OrderItem> orderItems;
+    
     public Meal() {
     }
 
@@ -72,6 +79,35 @@ public class Meal {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }
 

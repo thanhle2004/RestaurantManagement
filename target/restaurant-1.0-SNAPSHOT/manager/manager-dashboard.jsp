@@ -11,5 +11,7 @@
         <a href="chef-management">Chefs</a>
         <a href="table-management">Tables</a>
         <a href="menu-management">Menu</a>
+        <a href="view-record">Records</a>
+        <a href="view-stats">Stats</a>
     </body>
 </html>

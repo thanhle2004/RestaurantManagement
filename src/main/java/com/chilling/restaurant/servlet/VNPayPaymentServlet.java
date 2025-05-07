@@ -66,8 +66,7 @@ public class VNPayPaymentServlet extends HttpServlet {
         String vnp_TxnRef = String.valueOf(olist_id); 
         String vnp_OrderInfo = orderInfo;
         String vnp_Amount = amountStr;
-        String vnp_Locale = "vn";
-        String vnp_BankCode = ""; // Optional
+        String vnp_Locale = "en";
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
 
         Map<String, String> vnp_Params = new HashMap<>();
@@ -75,7 +74,7 @@ public class VNPayPaymentServlet extends HttpServlet {
         vnp_Params.put("vnp_Command", VNPayConfig.vnp_Command);
         vnp_Params.put("vnp_TmnCode", VNPayConfig.vnp_TmnCode);
         vnp_Params.put("vnp_Amount", vnp_Amount);
-        vnp_Params.put("vnp_CurrCode", "VND");
+        vnp_Params.put("vnp_CurrCode", "USD");
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", vnp_OrderInfo);
         vnp_Params.put("vnp_OrderType", "other");
