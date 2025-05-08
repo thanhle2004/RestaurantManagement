@@ -1,0 +1,10 @@
+FROM tomcat:10.0-jdk21-temurin
+
+# Xoá các ứng dụng mặc định của Tomcat
+RUN rm -rf /usr/local/tomcat/webapp/*
+
+# Copy WAR của bạn vào server và đổi tên thành ROOT.war để chạy tại đường dẫn gốc "/"
+COPY target/restaurant-1.0-SNAPSHOT.war /usr/local/tomcat/webapp/ROOT.war
+
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
