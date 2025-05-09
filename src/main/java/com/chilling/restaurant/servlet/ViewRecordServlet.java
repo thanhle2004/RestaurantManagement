@@ -40,7 +40,7 @@ public class ViewRecordServlet extends HttpServlet {
         try (Connection conn = DBUtil.getConnection()) {
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT m.*, r.rating, r.comment, b.amount ")
-               .append("FROM Meal m ")
+               .append("FROM meal m ")
                .append("LEFT JOIN Rate r ON m.rate_id = r.rate_id ")
                .append("LEFT JOIN Bill b ON m.bill_id = b.bill_id ");
 
@@ -106,8 +106,8 @@ public class ViewRecordServlet extends HttpServlet {
         List<OrderItem> items = new ArrayList<>();
 
         String sql = "SELECT oi.oitem_id, oi.quantity, mi.mi_id, mi.mi_name, mi.mi_price " +
-                     "FROM OrderItem oi " +
-                     "JOIN MenuItem mi ON oi.mi_id = mi.mi_id " +
+                     "FROM orderitem oi " +
+                     "JOIN menuitem mi ON oi.mi_id = mi.mi_id " +
                      "WHERE oi.olist_id = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
