@@ -10,8 +10,8 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 # Sao chép file WAR vào thư mục webapps
 COPY target/restaurant-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
 
-# Mở cổng 8080
-EXPOSE 8080
+# ⚠️ Sửa cổng Tomcat để đọc từ biến môi trường PORT của Railway
+RUN sed -i 's/port="8080"/port="${PORT}"/g' /usr/local/tomcat/conf/server.xml
 
 # Chạy Tomcat
 CMD ["catalina.sh", "run"]
