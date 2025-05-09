@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DBUtil {
-    private static final String JDBC_URL = "jdbc:mysql://root:tLOhceyFeeHjIUgUXGmbmEgujpkNcaLw@trolley.proxy.rlwy.net:37733/restaurantdb?useSSL=false&serverTimezone=UTC";
+    private static final String JDBC_URL = "jdbc:mysql://root:tLOhceyFeeHjIUgUXGmbmEgujpkNcaLw@trolley.proxy.rlwy.net:37733/railway";
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASSWORD = "tLOhceyFeeHjIUgUXGmbmEgujpkNcaLw";
 

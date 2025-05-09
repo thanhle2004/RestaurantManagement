@@ -52,7 +52,7 @@ public class UserDAO {
                 user.setRole(rs.getString("role"));
             }
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
         return user;
     }
@@ -70,7 +70,7 @@ public class UserDAO {
                 
             
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
     }
     
@@ -81,7 +81,7 @@ public class UserDAO {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
     }
 
@@ -97,7 +97,7 @@ public class UserDAO {
             stmt.setString(6, role);
             stmt.executeUpdate();
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
     }
 }
