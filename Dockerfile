@@ -1,5 +1,5 @@
 # Sử dụng Tomcat 10 làm base image
-FROM tomcat:10.0
+FROM tomcat:10.1-jdk21
 
 # Xóa tất cả ứng dụng mặc định (ROOT, examples,...)
 RUN rm -rf /usr/local/tomcat/webapps/*
