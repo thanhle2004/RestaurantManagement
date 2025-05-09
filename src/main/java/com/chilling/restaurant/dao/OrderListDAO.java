@@ -12,7 +12,7 @@ import java.util.List;
 
 public class OrderListDAO {
     public OrderList getOrderListByOrderListId(int orderListId) throws SQLException{
-        String sql = "SELECT * FROM OrderList WHERE table_id=?";
+        String sql = "SELECT * FROM orderlist WHERE table_id=?";
         try (Connection con = DBUtil.getConnection())  {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, orderListId);
@@ -32,7 +32,7 @@ public class OrderListDAO {
     }
 
     public OrderList getPendingOrderListByOrderListId(int orderListId) {
-        String sql = "SELECT * FROM OrderList WHERE olist_id = ? AND order_status = 'pending'";
+        String sql = "SELECT * FROM orderlist WHERE olist_id = ? AND order_status = 'pending'";
         try (Connection con = DBUtil.getConnection(); 
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -51,7 +51,7 @@ public class OrderListDAO {
     }
 
     public OrderList createOrderList() throws SQLException {
-        String sql = "INSERT INTO OrderList (order_status) VALUES ('pending')";
+        String sql = "INSERT INTO orderlist (order_status) VALUES ('pending')";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.executeUpdate();
@@ -70,7 +70,7 @@ public class OrderListDAO {
     }
 
     public OrderList getOrderListById(int olistId) {
-        String sql = "SELECT * FROM OrderList WHERE olist_id = ?";
+        String sql = "SELECT * FROM orderlist WHERE olist_id = ?";
         try (Connection con = DBUtil.getConnection(); 
              PreparedStatement ps = con.prepareStatement(sql)) {
 

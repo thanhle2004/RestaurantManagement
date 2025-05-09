@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class BillDAO {
     public int createBill(Bill bill) {
-    String sql = "INSERT INTO Bill (olist_id, amount, payment_status) VALUES (?, ?, ?)";
+    String sql = "INSERT INTO bill (olist_id, amount, payment_status) VALUES (?, ?, ?)";
     try (Connection con = DBUtil.getConnection()) {
         PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         stmt.setInt(1, bill.getOlist_id());
@@ -41,7 +41,7 @@ public class BillDAO {
 
     
     public Bill getBillByOrderListID(int olist_id) throws SQLException {
-        String sql = "SELECT * FROM Bill WHERE olist_id = ?";
+        String sql = "SELECT * FROM bill WHERE olist_id = ?";
         try (Connection con = DBUtil.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, olist_id);
