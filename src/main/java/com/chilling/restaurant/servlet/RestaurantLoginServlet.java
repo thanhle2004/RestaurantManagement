@@ -18,8 +18,8 @@ public class RestaurantLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String username = request.getParameter("username").trim();
-        String password = request.getParameter("password").trim();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
         try (Connection conn = DBUtil.getConnection()) {
             String sql = "SELECT role FROM users WHERE username=? AND password=?";

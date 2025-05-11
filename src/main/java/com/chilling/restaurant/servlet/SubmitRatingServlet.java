@@ -2,8 +2,10 @@ package com.chilling.restaurant.servlet;
 
 import com.chilling.restaurant.dao.MealDAO;
 import com.chilling.restaurant.dao.RateDAO;
+import com.chilling.restaurant.dao.TableDAO;
 import com.chilling.restaurant.model.Meal;
 import com.chilling.restaurant.model.Rate;
+import com.chilling.restaurant.model.Table;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,16 +27,21 @@ public class SubmitRatingServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         Meal meal = (Meal) session.getAttribute("meal");
+        Table table = (Table) session.getAttribute("table");
         LocalDateTime now = LocalDateTime.now();
         int rate_value = Integer.parseInt(request.getParameter("rate_value"));
         String comment = request.getParameter("comment");
 
         RateDAO rateDAO = new RateDAO();
         MealDAO mealDAO = new MealDAO();
+        TableDAO tableDAO = new TableDAO();
+        
         try {
             meal.setRateId(rateDAO.createRate(rate_value, comment));
             meal.setEndTime(now);
             mealDAO.updateMeal(meal);
+            tableDAO.updateOrderListID(null, table.getTable_id());
+            tableDAO.updateTableStatus("available", table.getTable_id());
         } catch (SQLException ex) {
             Logger.getLogger(SubmitRatingServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

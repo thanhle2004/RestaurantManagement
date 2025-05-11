@@ -2,7 +2,7 @@ package com.chilling.restaurant.model;
 
 public class Table {
     private int table_id;
-    private int olist_id;
+    private Integer olist_id;
     private int table_number;
     private int table_type;
     private String table_status;
@@ -16,11 +16,11 @@ public class Table {
         this.table_id = table_id;
     }
     
-    public int getOlist_id() {
+    public Integer getOlist_id() {
         return olist_id;
     }
     
-    public void setOlist_id(int olist_id) {
+    public void setOlist_id(Integer olist_id) {
         this.olist_id = olist_id;
     }
     
