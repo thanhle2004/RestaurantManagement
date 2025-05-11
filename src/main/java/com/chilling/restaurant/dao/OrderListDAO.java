@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderListDAO {
-    public OrderList getOrderListByOrderListId(int orderListId) throws SQLException{
+    public OrderList getOrderListByOrderListId(int orderListId) throws SQLException {
         String sql = "SELECT * FROM OrderList WHERE table_id=?";
-        try (Connection con = DBUtil.getConnection())  {
+        try (Connection con = DBUtil.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, orderListId);
             ResultSet rs = ps.executeQuery();
             
-            if (rs.next()){
+            if (rs.next()) {
                 return new OrderList(
                     rs.getInt("olist_id"),
                     rs.getString("order_status")
@@ -27,7 +27,6 @@ public class OrderListDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-       
         return null;
     }
 
@@ -35,7 +34,6 @@ public class OrderListDAO {
         String sql = "SELECT * FROM OrderList WHERE olist_id = ? AND order_status = 'pending'";
         try (Connection con = DBUtil.getConnection(); 
              PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setInt(1, orderListId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -73,7 +71,6 @@ public class OrderListDAO {
         String sql = "SELECT * FROM OrderList WHERE olist_id = ?";
         try (Connection con = DBUtil.getConnection(); 
              PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setInt(1, olistId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -86,5 +83,36 @@ public class OrderListDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<OrderList> getPendingOrderLists() {
+        List<OrderList> orderLists = new ArrayList<>();
+        String sql = "SELECT * FROM OrderList WHERE order_status IN ('pending', 'preparing')";
+        try (Connection con = DBUtil.getConnection(); 
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                OrderList orderList = new OrderList(
+                    rs.getInt("olist_id"),
+                    rs.getString("order_status")
+                );
+                orderLists.add(orderList);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orderLists;
+    }
+
+    public void updateOrderStatus(int olistId, String status) {
+        String sql = "UPDATE OrderList SET order_status = ? WHERE olist_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, status);
+            stmt.setInt(2, olistId);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -9,6 +9,17 @@ public class User {
     private String phone;
     private String role;
 
+    public User() {}
+    
+    public User(int user_id, String username, String password, String fname, String lname, String phone, String role) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+        this.fname = fname;
+        this.lname = lname;
+        this.phone = phone;
+        this.role = role;
+    }
     // Getters & Setters
     
     public int getUserId() {
