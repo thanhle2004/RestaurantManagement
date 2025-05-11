@@ -47,6 +47,7 @@ public class SubmitOrderServlet extends HttpServlet {
                 double summaryTotal = orderItemDAO.getTotalAmountByOrderListId(orderList.getOrderList_id());
                 session.setAttribute("summaryTotal", String.format("%.2f", summaryTotal));
                 session.setAttribute("orderList", orderList);
+                session.setAttribute("table", table);
                 session.setAttribute("meal", meal);
                 
                 response.sendRedirect(request.getContextPath() + "/table/order-summary.jsp");

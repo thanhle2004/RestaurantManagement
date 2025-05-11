@@ -164,4 +164,20 @@ public class TableDAO {
             e.printStackTrace();
         }
     }
+    
+    public void updateOrderListID(Integer olist_id, int table_id) throws SQLException {
+        try (Connection conn = DBUtil.getConnection()) {
+            String sql = "UPDATE tables SET olist_id=? WHERE table_id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            if (olist_id == null) {
+                stmt.setNull(1, java.sql.Types.INTEGER);
+            } else {
+                stmt.setInt(1, olist_id);
+            }
+            stmt.setInt(2, table_id);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

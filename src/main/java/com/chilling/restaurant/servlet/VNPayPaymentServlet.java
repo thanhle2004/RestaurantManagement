@@ -62,6 +62,7 @@ public class VNPayPaymentServlet extends HttpServlet {
          }
         session.setAttribute("meal", meal);
         session.setAttribute("bill", bill);
+        session.setAttribute("table", table);
 
         String vnp_TxnRef = String.valueOf(olist_id); 
         String vnp_OrderInfo = orderInfo;

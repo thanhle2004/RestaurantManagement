@@ -52,6 +52,7 @@ public class TableMenuServlet extends HttpServlet {
             OrderListDAO orderListDAO = new OrderListDAO();
             MealDAO mealDAO = new MealDAO();
             OrderItemDAO orderItemDAO = new OrderItemDAO();
+            TableDAO tableDAO = new TableDAO();
 
             OrderList orderList = (OrderList) session.getAttribute("orderList");
 
@@ -64,6 +65,8 @@ public class TableMenuServlet extends HttpServlet {
                 
                 int meal_id = mealDAO.addMeal(meal);
                 meal.setMealId(meal_id);
+                table.setOlist_id(orderList.getOrderList_id());
+                tableDAO.updateOrderListID(orderList.getOrderList_id(), table.getTable_id());
 
                 session.setAttribute("orderList", orderList);
                 session.setAttribute("meal", meal);
