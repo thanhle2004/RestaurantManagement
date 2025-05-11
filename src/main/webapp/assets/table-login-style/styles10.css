@@ -1,0 +1,173 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.manager-header {
+  width: 100%;
+  padding: 15px 30px;
+  text-align: center;
+  position: relative;
+  height: 60px;
+}
+
+.form-title {
+  font-size: 32px;
+  color: orange;
+  margin: 30px 0;
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: nowrap; 
+  gap: 50px;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.seat {
+  flex: 0 0 30%; 
+  max-width: 350px;
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.seat h3 {
+  font-size: 24px;
+  color: orange;
+  margin-bottom: 15px;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 20px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.form-container label span {
+  display: block;
+  margin-bottom: 6px;
+  color: orange;
+}
+
+.form-container input,
+.form-container select,
+.form-container input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.form-container input:focus,
+.form-container select:focus {
+  border-color: orange;
+  outline: none;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.table-button {
+  padding: 10px 20px;
+  background-color: orange;
+  color: #111;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+#loginSection{
+    padding-top: 50px;
+}
+
+.table-button:hover {
+  background-color: #e69500;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.custom-button {
+  display: inline-block;
+  margin: 0 10px;
+  padding: 12px 24px;
+  background-color: orange;
+  color: #111;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.custom-button:hover {
+  background-color: #e69500;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: orange;
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #e69500;
+}
+
+.back-button.header-back {
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-bottom: 0;
+}
+
+
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 900px) {
+  .form-container {
+    flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ */
+  }
+  .seat {
+    flex: 1 1 100%; 
+    max-width: 100%;
+  }
+}

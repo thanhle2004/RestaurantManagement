@@ -1,0 +1,96 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f1117;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.login-wrapper {
+    display: flex;
+    background-color: #1a1c23;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    width: 800px;
+    max-width: 95%;
+}
+
+.login-container {
+    flex: 1;
+    padding: 40px;
+    align-items: center;
+}
+
+.login-container h2 {
+    margin-bottom: 24px;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.login-container label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: 500;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2c2f38;
+    color: white;
+    margin-bottom: 12px;
+}
+
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-group input[type="submit"],
+.button-group input[type="button"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3a86ff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-group input[type="button"] {
+    background-color: #6c757d;
+}
+
+.button-group input:hover {
+    background-color: #265dc1;
+}
+
+.signup-link {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.signup-link a {
+    color: #3a86ff;
+    text-decoration: none;
+}
+
+.login-image {
+    flex: 1;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
