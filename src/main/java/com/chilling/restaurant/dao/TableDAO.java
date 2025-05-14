@@ -89,6 +89,28 @@ public class TableDAO {
         return table;
     }
     
+    public Table getTableByOlistId(int olistId) {
+        Table table = new Table();
+        try (Connection conn = DBUtil.getConnection()) {
+            String sql = "SELECT * FROM tables WHERE olist_id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, olistId);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                table.setTable_id(rs.getInt("table_id"));
+                table.setOlist_id(rs.getInt("olist_id"));
+                table.setTable_number(rs.getInt("table_number"));
+                table.setTable_type(rs.getInt("table_type"));
+                table.setTable_status(rs.getString("table_status"));
+                table.setTable_password(rs.getString("table_password"));
+            } 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return table;
+    }
+    
     public void insertTable(Table table) throws SQLException {
         try (Connection conn = DBUtil.getConnection()) {
             String sql = "INSERT INTO tables (table_number, table_type, table_status, table_password) VALUES (?, ?, ?, ?)";

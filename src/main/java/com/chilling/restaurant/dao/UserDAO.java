@@ -28,7 +28,7 @@ public class UserDAO {
                 userList.add(user);
             }
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
         return userList;
     }
@@ -59,16 +59,16 @@ public class UserDAO {
     
     public void updateUser(User user) throws SQLException {
         try (Connection conn = DBUtil.getConnection()) {
-            String sql = "UPDATE users SET fname=?, lname=?, phone=?, role=? WHERE user_id=?";
+            String sql = "UPDATE users SET username=?, fname=?, lname=?, phone=?, password=?, role=? WHERE user_id=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, user.getFname());
-            stmt.setString(2, user.getLname());
-            stmt.setString(3, user.getPhone());
-            stmt.setString(4, user.getRole());
-            stmt.setInt(5, user.getUserId());
+            stmt.setString(1, user.getUsername()); // Thêm username
+            stmt.setString(2, user.getFname());
+            stmt.setString(3, user.getLname());
+            stmt.setString(4, user.getPhone());
+            stmt.setString(5, user.getPassword());
+            stmt.setString(6, user.getRole());
+            stmt.setInt(7, user.getUserId());
             stmt.executeUpdate();
-                
-            
         } catch (Exception e) {
             e.printStackTrace();
         }

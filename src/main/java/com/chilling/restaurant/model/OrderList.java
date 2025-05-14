@@ -10,6 +10,7 @@ public class OrderList {
     private LocalDateTime createdTime;
     private List<OrderItem> items = new ArrayList<>();
     private double totalAmount;
+    private Table table; // Thêm thuộc tính Table
 
     public OrderList() {}
 
@@ -61,4 +62,13 @@ public class OrderList {
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
+    }
+    
 }

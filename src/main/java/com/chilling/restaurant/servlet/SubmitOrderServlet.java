@@ -1,25 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.chilling.restaurant.servlet;
 
 import com.chilling.restaurant.dao.OrderItemDAO;
 import com.chilling.restaurant.dao.OrderListDAO;
+import com.chilling.restaurant.dao.CookScheduleItemDAO;
 import com.chilling.restaurant.model.Meal;
 import com.chilling.restaurant.model.OrderItem;
 import com.chilling.restaurant.model.OrderList;
 import com.chilling.restaurant.model.Table;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 @WebServlet("/submit-order")
 public class SubmitOrderServlet extends HttpServlet {
@@ -34,16 +35,17 @@ public class SubmitOrderServlet extends HttpServlet {
             OrderListDAO orderListDAO = new OrderListDAO();
             OrderList orderList = orderListDAO.getOrderListById(meal.getOlistId());
             OrderItemDAO orderItemDAO = new OrderItemDAO();
+            CookScheduleItemDAO cookScheduleItemDAO = new CookScheduleItemDAO();
             
-            if (orderList != null && orderList.getItems() != null) {
-                
+            if (orderList != null) {
                 System.out.println("Submitting order for table: " + table.getTable_number());
-                for (OrderItem item : orderList.getItems()) {
+                List<OrderItem> items = orderItemDAO.getItemsByOrderListId(orderList.getOrderList_id());
+                for (OrderItem item : items) {
                     System.out.println("Item: " + item.getItem().getItemName() +
                             ", Quantity: " + item.getOrderItemQuantity());
                 }
                 
-                session.setAttribute("summaryItems", orderItemDAO.getItemsByOrderListId(orderList.getOrderList_id()));
+                session.setAttribute("summaryItems", items);
                 double summaryTotal = orderItemDAO.getTotalAmountByOrderListId(orderList.getOrderList_id());
                 session.setAttribute("summaryTotal", String.format("%.2f", summaryTotal));
                 session.setAttribute("orderList", orderList);
@@ -51,7 +53,6 @@ public class SubmitOrderServlet extends HttpServlet {
                 session.setAttribute("meal", meal);
                 
                 response.sendRedirect(request.getContextPath() + "/table/order-summary.jsp");
-                
             } else {
                 response.sendRedirect("table-menu?error=No+items+to+submit");
             }
