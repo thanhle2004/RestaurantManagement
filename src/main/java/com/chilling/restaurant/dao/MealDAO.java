@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class MealDAO {
 
     public int addMeal(Meal meal) throws SQLException {
-        String sql = "INSERT INTO Meal (olist_id, start_time) VALUES (?, ?)";
+        String sql = "INSERT INTO meal (olist_id, start_time) VALUES (?, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -60,7 +60,7 @@ public class MealDAO {
     }
 
     public void deleteMeal(int mealId) throws SQLException {
-        String sql = "DELETE FROM Meal WHERE meal_id = ?";
+        String sql = "DELETE FROM meal WHERE meal_id = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -72,7 +72,7 @@ public class MealDAO {
     }
 
     public Meal getMealById(int mealId) throws SQLException {
-        String sql = "SELECT * FROM Meal WHERE meal_id = ?";
+        String sql = "SELECT * FROM meal WHERE meal_id = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -121,7 +121,7 @@ public class MealDAO {
 
     public List<Meal> getAllMeals() throws SQLException {
         List<Meal> meals = new ArrayList<>();
-        String sql = "SELECT * FROM Meal";
+        String sql = "SELECT * FROM meal";
         try (Connection conn = DBUtil.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {

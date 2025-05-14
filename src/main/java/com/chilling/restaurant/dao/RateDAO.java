@@ -13,7 +13,7 @@ public class RateDAO {
     public int createRate(int rate_value, String comment) {
     int generatedId = -1;
     try (Connection con = DBUtil.getConnection()) {
-        String sql = "INSERT INTO Rate (rating, comment) VALUES (?, ?)";
+        String sql = "INSERT INTO rate (rating, comment) VALUES (?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
         stmt.setInt(1, rate_value);
         stmt.setString(2, comment);

@@ -20,8 +20,8 @@ public class OrderItemDAO {
         List<OrderItem> items = new ArrayList<>();
         String sql = "SELECT oi.oitem_id, oi.olist_id, oi.quantity, " +
                      "mi.mi_id, mi.mi_name, mi.mi_price, mi.mi_img_path, mi.mi_time_cook " +
-                     "FROM OrderItem oi " +
-                     "JOIN MenuItem mi ON oi.mi_id = mi.mi_id " +
+                     "FROM orderitem oi " +
+                     "JOIN menuitem mi ON oi.mi_id = mi.mi_id " +
                      "WHERE oi.olist_id = ?";
         try (Connection con = DBUtil.getConnection(); 
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -76,9 +76,9 @@ public class OrderItemDAO {
         double totalAmount = 0;
         String sql = "SELECT SUM(subtotal) " +
                      "FROM (SELECT (oi.quantity * mi.mi_price) AS subtotal " +
-                     "FROM MenuItem mi " +
-                     "JOIN OrderItem oi ON mi.mi_id = oi.mi_id " +
-                     "JOIN OrderList ol ON ol.olist_id = oi.olist_id " +
+                     "FROM menuitem mi " +
+                     "JOIN orderitem oi ON mi.mi_id = oi.mi_id " +
+                     "JOIN orderlist ol ON ol.olist_id = oi.olist_id " +
                      "WHERE ol.olist_id = ? " +
                      ") as SubPrice;";
         
@@ -98,8 +98,8 @@ public class OrderItemDAO {
     public OrderItem getOrderItemByListIdAndItemId(int orderListId, int itemId) {
     String sql = "SELECT oi.oitem_id, oi.olist_id, oi.quantity, " +
                  "mi.mi_id, mi.mi_name, mi.mi_price, mi.mi_img_path, mi.mi_time_cook " +
-                 "FROM OrderItem oi " +
-                 "JOIN MenuItem mi ON oi.mi_id = mi.mi_id " +
+                 "FROM orderitem oi " +
+                 "JOIN menuitem mi ON oi.mi_id = mi.mi_id " +
                  "WHERE oi.olist_id = ? AND oi.mi_id = ?";
     try (Connection con = DBUtil.getConnection();
          PreparedStatement ps = con.prepareStatement(sql)) {
@@ -129,7 +129,7 @@ public class OrderItemDAO {
 }
 
 public void insertOrderItem(OrderItem orderItem) {
-    String sql = "INSERT INTO OrderItem (olist_id, mi_id, quantity) VALUES (?, ?, ?)";
+    String sql = "INSERT INTO orderitem (olist_id, mi_id, quantity) VALUES (?, ?, ?)";
     try (Connection con = DBUtil.getConnection();
          PreparedStatement ps = con.prepareStatement(sql)) {
 

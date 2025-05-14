@@ -143,6 +143,7 @@
             <form action="/restaurant/submit-rating" method="post" class="rating-form">
                 <input type="hidden" name="olist_id" value="<%= olist_id %>">
                 <input type="hidden" name="meal_id" value="<%= meal.getMealId() %>">
+                <input type="hidden" name="table_id" value="<%= table.getTable_id() %>">
                 <div class="star-rating">
                     <input type="radio" name="rate_value" id="star5" value="5"><label for="star5">&#9733;</label>
                     <input type="radio" name="rate_value" id="star4" value="4"><label for="star4">&#9733;</label>
