@@ -100,4 +100,20 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
+    
+    public void insertUser(String username, String password, String fname, String lname, String phone, String role) throws SQLException {
+        try (Connection conn = DBUtil.getConnection()) {
+            String sql = "INSERT INTO users (username, password, fname, lname, phone, role) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, fname);
+            stmt.setString(4, lname);
+            stmt.setString(5, phone);
+            stmt.setString(6, role);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

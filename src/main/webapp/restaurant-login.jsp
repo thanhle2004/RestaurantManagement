@@ -32,7 +32,7 @@
             <% boolean managerExists = Boolean.TRUE.equals(request.getAttribute("managerExists")); %>
             <% if (!managerExists) { %>
                 <div class="signup-link">
-                    <a href="#">Sign up for manager</a>
+                    <a href="<%= request.getContextPath() %>/manager-sign-up.jsp">Sign up for manager</a>
                 </div>
             <% } %>
         </div>
