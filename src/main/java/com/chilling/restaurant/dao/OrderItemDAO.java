@@ -18,7 +18,7 @@ public class OrderItemDAO {
     
     public List<OrderItem> getItemsByOrderListId(int orderListId) {
         List<OrderItem> items = new ArrayList<>();
-        String sql = "SELECT oi.oitem_id, oi.olist_id, oi.quantity, " +
+        String sql = "SELECT oi.oitem_id, oi.olist_id, oi.quantity, oi.base_quantity, " +
                      "mi.mi_id, mi.mi_name, mi.mi_price, mi.mi_img_path, mi.mi_time_cook " +
                      "FROM orderitem oi " +
                      "JOIN menuitem mi ON oi.mi_id = mi.mi_id " +
@@ -40,7 +40,8 @@ public class OrderItemDAO {
                         rs.getInt("oitem_id"),
                         rs.getInt("olist_id"),
                         item,
-                        rs.getInt("quantity")
+                        rs.getInt("quantity"),
+                        rs.getInt("base_quantity")
                 );
                 items.add(orderItem);
             }
@@ -60,6 +61,7 @@ public class OrderItemDAO {
                     item = new OrderItem();
                     item.setOrderItem_id(rs.getInt("oitem_id"));
                     item.setOrderItemQuantity(rs.getInt("quantity"));
+                    item.setBaseQuantity(rs.getInt("base_quantity"));
                     item.setItem(menuDAO.getItemById(rs.getInt("mi_id")));
                     item.setOrderList_id(rs.getInt("olist_id"));
                 }
@@ -96,7 +98,7 @@ public class OrderItemDAO {
     }
     
     public OrderItem getOrderItemByListIdAndItemId(int orderListId, int itemId) {
-    String sql = "SELECT oi.oitem_id, oi.olist_id, oi.quantity, " +
+    String sql = "SELECT oi.oitem_id, oi.olist_id, oi.quantity, oi.base_quantity, " +
                  "mi.mi_id, mi.mi_name, mi.mi_price, mi.mi_img_path, mi.mi_time_cook " +
                  "FROM orderitem oi " +
                  "JOIN menuitem mi ON oi.mi_id = mi.mi_id " +
@@ -119,7 +121,8 @@ public class OrderItemDAO {
                 rs.getInt("oitem_id"),
                 rs.getInt("olist_id"),
                 item,
-                rs.getInt("quantity")
+                rs.getInt("quantity"),
+                rs.getInt("base_quantity")
             );
         }
     } catch (Exception e) {
@@ -128,50 +131,101 @@ public class OrderItemDAO {
     return null;
 }
 
-public void insertOrderItem(OrderItem orderItem) {
-    String sql = "INSERT INTO orderitem (olist_id, mi_id, quantity) VALUES (?, ?, ?)";
-    try (Connection con = DBUtil.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
+    public void insertOrderItem(OrderItem orderItem) {
+        String sql = "INSERT INTO orderitem (olist_id, mi_id, quantity, base_quantity) VALUES (?, ?, ?, ?)";
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.setInt(1, orderItem.getOrderList_id());
-        ps.setInt(2, orderItem.getItem().getItemId());
-        ps.setInt(3, orderItem.getOrderItemQuantity());
-        ps.executeUpdate();
-    } catch (Exception e) {
-        e.printStackTrace();
+            ps.setInt(1, orderItem.getOrderList_id());
+            ps.setInt(2, orderItem.getItem().getItemId());
+            ps.setInt(3, orderItem.getOrderItemQuantity());
+            ps.setInt(4, orderItem.getBaseQuantity());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 
-public boolean deleteOrderItem(int olistId, int oitemId) {
-    String sql = "DELETE FROM orderitem WHERE olist_id = ? AND oitem_id = ?";
-    try (Connection conn = DBUtil.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, olistId);
-        stmt.setInt(2, oitemId);
-        return stmt.executeUpdate() > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }   catch (Exception ex) {
-            Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    return false;
-}
+    public boolean deleteOrderItem(int olistId, int oitemId) {
+        String sql = "DELETE FROM orderitem WHERE olist_id = ? AND oitem_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, olistId);
+            stmt.setInt(2, oitemId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }   catch (Exception ex) {
+                Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return false;
+    }
 
-public boolean updateOrderItemQuantity(int olistId, int oitemId, int quantity) {
-    String sql = "UPDATE orderitem SET quantity = ? WHERE olist_id = ? AND oitem_id = ?";
-    try (Connection conn = DBUtil.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, quantity);
-        stmt.setInt(2, olistId);
-        stmt.setInt(3, oitemId);
-        return stmt.executeUpdate() > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }   catch (Exception ex) {
-            Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    return false;
-}
+    public boolean updateOrderItemQuantity(int olistId, int oitemId, int quantity) {
+        String sql = "UPDATE orderitem SET quantity = ? WHERE olist_id = ? AND oitem_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, quantity);
+            stmt.setInt(2, olistId);
+            stmt.setInt(3, oitemId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }   catch (Exception ex) {
+                Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return false;
+    }
 
+    public boolean updateOrderItemBaseQuantity(int olistId, int oitemId, int base_quantity) {
+        String sql = "UPDATE orderitem SET base_quantity = ? WHERE olist_id = ? AND oitem_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, base_quantity);
+            stmt.setInt(2, olistId);
+            stmt.setInt(3, oitemId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }   catch (Exception ex) {
+                Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return false;
+    }
 
+    public int getOrderItemQuantity(int olistId, int oitemId) {
+        String sql = "SELECT quantity FROM orderitem WHERE olist_id = ? AND oitem_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, olistId);
+            stmt.setInt(2, oitemId);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }   catch (Exception ex) {
+                Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return 0;
+    }
+    
+    public int getOrderItemBaseQuantity(int olistId, int oitemId) {
+        String sql = "SELECT base_quantity FROM orderitem WHERE olist_id = ? AND oitem_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, olistId);
+            stmt.setInt(2, oitemId);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("base_quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }   catch (Exception ex) {
+                Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return 0;
+    }
 }

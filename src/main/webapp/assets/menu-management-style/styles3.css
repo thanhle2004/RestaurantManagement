@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111;
+  color: #fff;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: 500;
+  color: #FFA500;
+}
+
+h3 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+a {
+  color: #FFA500;
+  text-decoration: none;
+  font-size: 1.2rem;
+  display: block;
+  text-align: center;
+  margin: 20px 0;
+  padding: 10px;
+  border: 2px solid #FFA500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  background-color: #FFA500;
+  color: #111;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+  background-color: #222;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+th {
+  background-color: #FFA500;
+  color: white;
+  padding: 12px;
+  font-size: 1.1rem;
+  text-align: left;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+td {
+  padding: 12px;
+  text-align: left;
+  font-size: 1rem;
+  border-bottom: 1px solid #444;
+}
+
+td a {
+  color: #FFA500;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+td a:hover {
+  color: #d15d00;
+}
+
+td img {
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+td img:hover {
+  transform: scale(1.1);
+}
+
+.manager-header {
+  position: relative;
+  height: 60px;
+  width: 100%;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: orange;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #e69500;
+}
+
+.back-button.header-back {
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+
+  table, th, td {
+    font-size: 0.9rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  a {
+    font-size: 1rem;
+  }
+
+  .back-button {
+    padding: 10px 20px;
+  }
+}

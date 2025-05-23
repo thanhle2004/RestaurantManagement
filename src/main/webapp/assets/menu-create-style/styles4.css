@@ -1,0 +1,118 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.manager-header {
+  width: 100%;
+  padding: 15px 30px;
+  text-align: center;
+  position: relative;
+  height: 60px;
+}
+
+.manager-header h1 {
+  color: orange;
+  font-size: 28px;
+}
+
+.form-title {
+  font-size: 32px;
+  color: orange;
+  margin: 30px 0;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  background-color: #1a1a1a;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 20px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.form-container label span {
+  display: block;
+  margin-bottom: 6px;
+  color: orange;
+}
+
+.form-container input,
+.form-container select,
+.form-container input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.custom-button {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  margin-top: 10px;
+  background: orange;
+  color: #111;
+  border: 3px solid #111;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 8px 0 #111;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.custom-button:hover {
+  background-color: #e69500;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #e69500;
+}
+
+.back-button.header-back {
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-bottom: 0;
+}

@@ -8,41 +8,40 @@
 <html>
 <head>
     <title>Chilling Restaurant</title>
+    <link rel="stylesheet" href="../assets/chef-management-style/styles6.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 </head>
+<header class="manager-header">
+    <a href="manager-dashboard.jsp" class="back-button header-back">← Back</a>
+</header>
 <body>
     <h2>Chef List</h2>
-    <a href="<%= request.getContextPath() %>/manager/chef-register.jsp">➕ Add chef</a>
-    <table border="1" cellpadding="5">
+    <a href="<%= request.getContextPath() %>/manager/chef-register.jsp" class="add-btn">➕ Add chef</a>
+    <table>
+      <thead>
         <tr>
-    <th>N.0</th>
-    <th>Username</th>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Phone number</th>
-    <th>Action</th>
-</tr>
-<%
-    int n = 0;
-    for (User user : users) {
-        if(user.getRole().equals("chef")) {
-            n++;
-%>
-<tr>
-    <td><%= n %></td>
-    <td><%= user.getUsername() %></td>
-    <td><%= user.getLname() %></td>
-    <td><%= user.getFname() %></td>
-    <td><%= user.getPhone() %></td>
-    <td>
-        <a href="chef-edit?id=<%= user.getUserId() %>">Edit</a> |
-        <a href="chef-delete?id=<%= user.getUserId() %>" onclick="return confirm('Delete this account?')">Delete</a>
-    </td>
-</tr>
-<%
-        }
-    }
-%>
-
+          <th>N.0</th><th>Username</th><th>First name</th><th>Last name</th><th>Phone number</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% int n = 0;
+           for (User user : users) {
+             if (user.getRole().equals("chef")) {
+               n++;
+        %>
+        <tr>
+          <td><%= n %></td>
+          <td><%= user.getUsername() %></td>
+          <td><%= user.getFname() %></td>
+          <td><%= user.getLname() %></td>
+          <td><%= user.getPhone() %></td>
+          <td>
+            <a href="chef-edit?id=<%= user.getUserId() %>">Edit</a> |
+            <a href="chef-delete?id=<%= user.getUserId() %>" onclick="return confirm('Delete this account?')">Delete</a>
+          </td>
+        </tr>
+        <% } } %>
+      </tbody>
     </table>
 </body>
 </html>

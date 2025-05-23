@@ -5,6 +5,8 @@
 package com.chilling.restaurant.servlet;
 
 import com.chilling.restaurant.controller.MenuItemController;
+import com.chilling.restaurant.dao.CookScheduleItemDAO;
+import com.chilling.restaurant.dao.CookScheduleListDAO;
 import com.chilling.restaurant.dao.MealDAO;
 import com.chilling.restaurant.dao.OrderItemDAO;
 import com.chilling.restaurant.dao.OrderListDAO;
@@ -37,6 +39,7 @@ public class TableMenuServlet extends HttpServlet {
             Table table = (Table) session.getAttribute("table");
             String action = request.getParameter("action");
             LocalDateTime now = LocalDateTime.now();
+            boolean isPending = true;
 
             if (table == null) {
                 response.sendRedirect("table-login.jsp");
@@ -74,6 +77,14 @@ public class TableMenuServlet extends HttpServlet {
 
             if (orderList == null) {
                 orderList = new OrderList();
+            } else {
+                orderListDAO.updateOrderStatus(orderList.getOrderList_id(), "ordering");
+                CookScheduleListDAO cookScheduleListDAO = new CookScheduleListDAO();
+                if(cookScheduleListDAO.getScheduleByOlistId(orderList.getOrderList_id()) != null) {
+                    if(!cookScheduleListDAO.getScheduleListStatusByOlistId(orderList.getOrderList_id()).equals("pending")) {
+                       isPending = false; 
+                    }                    
+                }
             }
 
             MenuItemController menuItemController = new MenuItemController();
@@ -91,6 +102,8 @@ public class TableMenuServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(OrderServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            request.setAttribute("isPending", isPending);
 
             request.getRequestDispatcher("table/menu.jsp").forward(request, response);
         } catch (SQLException e) {

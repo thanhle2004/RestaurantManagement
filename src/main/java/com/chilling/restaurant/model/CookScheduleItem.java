@@ -7,15 +7,17 @@ public class CookScheduleItem {
     private int oitemTimeCook; // Số phút để hoàn thành món ăn
     private String status;
     private OrderItem orderItem;
+    private int completed_quantity;
 
     public CookScheduleItem() {}
 
-    public CookScheduleItem(int scheduleId, int schlistId, int oitemId, int oitemTimeCook, String status) {
+    public CookScheduleItem(int scheduleId, int schlistId, int oitemId, int oitemTimeCook, String status, int completed_quantity) {
         this.scheduleId = scheduleId;
         this.schlistId = schlistId;
         this.oitemId = oitemId;
         this.oitemTimeCook = oitemTimeCook;
         this.status = status;
+        this.completed_quantity = completed_quantity;
     }
 
     public int getScheduleId() {
@@ -64,5 +66,13 @@ public class CookScheduleItem {
 
     public void setOrderItem(OrderItem orderItem) {
         this.orderItem = orderItem;
+    }
+    
+    public int getCompleted_quantity() {
+        return completed_quantity;
+    }
+    
+    public void setCompleted_quantity(int completed_quantity) {
+        this.completed_quantity = completed_quantity;
     }
 }

@@ -1,112 +1,82 @@
 <%@ page import="java.util.*, com.chilling.restaurant.model.Table" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/includes/check-manager.jsp" %>
 <%
     List<Table> tableTypeTwoList = (List<Table>) request.getAttribute("tableTypeTwoList");
     List<Table> tableTypeFourList = (List<Table>) request.getAttribute("tableTypeFourList");
     List<Table> tableTypeEightList = (List<Table>) request.getAttribute("tableTypeEightList");
-    
-    int twoCount = 1;
-    int fourCount = 1;
-    int eightCount = 1;
 %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Chilling Restaurant</title>
-    </head>
-    <body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Chilling Restaurant</title>
+    <link rel="stylesheet" href="../assets/table-management-style/styles9.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+</head>
+<header class="manager-header">
+    <a href="manager-dashboard.jsp" class="back-button header-back">← Back</a>
+</header>
+<body>
     <h2>Tables</h2>
-    <form action="table-change-password" method="post">
-        Password: <input type="text" name="password" placeholder="Enter new password" required/>
-        <button type="submit">Change password</button>
+    <form action="table-change-password" method="post" class="password-form">
+        <label>Password:</label>
+        <input type="text" name="password" placeholder="Enter new password" required/>
+        <button type="submit" class="custom-button">Change password</button>
     </form>
     <h3>Two seats</h3>
-    <a href="${pageContext.request.contextPath}/manager/table-create?type=2">➕ Add table</a>
-    <table border="1" cellpadding="5">
-        <tr>
-    <th>N.0</th>
-    <th>Table Number</th>
-    <th>Table Status</th>
-    <th>Table Password</th>
-    <th>Action</th>
-</tr>
-<%
-    for (Table table : tableTypeTwoList) {
-        
-%>
-<tr>
-    <td><%= twoCount %></td>
-        <td><%= table.getTable_number() %></td>
-    <td><%= table.getTable_status() %></td>
-    <td><%= table.getTable_password() %></td>
-    <td>
-        <a href="table-delete?id=<%= table.getTable_id() %>" onclick="return confirm('Delete this table?')">Delete</a>
-    </td>
-</tr>
-<%
-        twoCount++;
-    }
-%>
-
+    <a href="${pageContext.request.contextPath}/manager/table-create?type=2" class="add-btn">➕ Add table</a>
+    <table>
+        <thead>
+            <tr><th>N.0</th><th>Table Number</th><th>Table Status</th><th>Table Password</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+            <% int n = 1; for (Table table : tableTypeTwoList) { %>
+            <tr>
+                <td><%= n++ %></td>
+                <td><%= table.getTable_number() %></td>
+                <td><%= table.getTable_status() %></td>
+                <td><%= table.getTable_password() %></td>
+                <td><a href="table-delete?id=<%= table.getTable_id() %>" onclick="return confirm('Delete this table?')">Delete</a></td>
+            </tr>
+            <% } %>
+        </tbody>
     </table>
-
     <h3>Four seats</h3>
-    <a href="${pageContext.request.contextPath}/manager/table-create?type=4">➕ Add table</a>
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>N.0</th>
-            <th>Table Number</th>
-            <th>Table Status</th>
-            <th>Table Password</th>
-            <th>Action</th>
-        </tr>
-<%
-    for (Table table : tableTypeFourList) {
-%>
-<tr>
-    <td><%= fourCount %></td>
-    <td><%= table.getTable_number() %></td>
-    <td><%= table.getTable_status() %></td>
-    <td><%= table.getTable_password() %></td>
-    <td>
-        <a href="table-delete?id=<%= table.getTable_id() %>" onclick="return confirm('Delete this table?')">Delete</a>
-    </td>
-</tr>
-<%
-        fourCount++;
-    }
-%>
-
+    <a href="${pageContext.request.contextPath}/manager/table-create?type=4" class="add-btn">➕ Add table</a>
+    <table>
+        <thead>
+            <tr><th>N.0</th><th>Table Number</th><th>Table Status</th><th>Table Password</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+            <% n = 1; for (Table table : tableTypeFourList) { %>
+            <tr>
+                <td><%= n++ %></td>
+                <td><%= table.getTable_number() %></td>
+                <td><%= table.getTable_status() %></td>
+                <td><%= table.getTable_password() %></td>
+                <td><a href="table-delete?id=<%= table.getTable_id() %>" onclick="return confirm('Delete this table?')">Delete</a></td>
+            </tr>
+            <% } %>
+        </tbody>
     </table>
-
-<h3>Eight seats</h3>
-    <a href="${pageContext.request.contextPath}/manager/table-create?type=8">➕ Add table</a>
-    <table border="1" cellpadding="5">
-        <tr>
-    <th>N.0</th>
-    <th>Table Number</th>
-    <th>Table Status</th>
-    <th>Table Password</th>
-    <th>Action</th>
-</tr>
-<%
-    for (Table table : tableTypeEightList) {
-%>
-<tr>
-    <td><%= eightCount %></td>
-    <td><%= table.getTable_number() %></td>
-    <td><%= table.getTable_status() %></td>
-    <td><%= table.getTable_password() %></td>
-    <td>
-        <a href="table-delete?id=<%= table.getTable_id() %>" onclick="return confirm('Delete this table?')">Delete</a>
-    </td>
-</tr>
-<%
-        eightCount++;
-    }
-%>
-
+    <h3>Eight seats</h3>
+    <a href="${pageContext.request.contextPath}/manager/table-create?type=8" class="add-btn">➕ Add table</a>
+    <table>
+        <thead>
+            <tr><th>N.0</th><th>Table Number</th><th>Table Status</th><th>Table Password</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+            <% n = 1; for (Table table : tableTypeEightList) { %>
+            <tr>
+                <td><%= n++ %></td>
+                <td><%= table.getTable_number() %></td>
+                <td><%= table.getTable_status() %></td>
+                <td><%= table.getTable_password() %></td>
+                <td><a href="table-delete?id=<%= table.getTable_id() %>" onclick="return confirm('Delete this table?')">Delete</a></td>
+            </tr>
+            <% } %>
+        </tbody>
     </table>
 </body>
 </html>

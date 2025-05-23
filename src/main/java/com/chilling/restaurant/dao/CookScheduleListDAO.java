@@ -31,6 +31,26 @@ public class CookScheduleListDAO {
         }
         return null;
     }
+    
+    public CookScheduleList getScheduleByOlistId(int olistId) {
+        String sql = "SELECT * FROM CookScheduleList WHERE olist_id = ?";
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, olistId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new CookScheduleList(
+                    rs.getInt("schlist_id"),
+                    rs.getInt("olist_id"),
+                    rs.getInt("user_id"),
+                    rs.getString("status")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public CookScheduleList createSchedule(CookScheduleList schedule) {
         String sql = "INSERT INTO CookScheduleList (olist_id, user_id, status) VALUES (?, ?, ?)";
@@ -82,5 +102,35 @@ public class CookScheduleListDAO {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public String getScheduleListStatusByOlistId(int olistId) {
+        String sql = "SELECT status FROM cookschedulelist WHERE olist_id = ?";
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, olistId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("status");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public int getScheduleListIdByOlistId(int olistId) {
+        String sql = "SELECT schlist_id FROM cookschedulelist WHERE olist_id = ?";
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, olistId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("schlist_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -49,7 +49,7 @@ public class OrderListDAO {
     }
 
     public OrderList createOrderList() throws SQLException {
-        String sql = "INSERT INTO orderlist (order_status) VALUES ('pending')";
+        String sql = "INSERT INTO orderlist (order_status) VALUES ('ordering')";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.executeUpdate();
@@ -58,7 +58,7 @@ public class OrderListDAO {
                 int id = rs.getInt(1);
                 OrderList orderList = new OrderList();
                 orderList.setOrderList_id(id);
-                orderList.setOrderStatus("pending");
+                orderList.setOrderStatus("ordering");
                 return orderList;
             }
         } catch (Exception e) {
@@ -114,5 +114,21 @@ public class OrderListDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public String getOrderStatus(int olistId) {
+        String sql = "SELECT order_status FROM orderlist WHERE olist_id = ?";
+        try (Connection con = DBUtil.getConnection())  {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, olistId);
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()) {
+                return rs.getString("order_status");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

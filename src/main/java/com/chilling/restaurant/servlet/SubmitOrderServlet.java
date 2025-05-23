@@ -36,13 +36,18 @@ public class SubmitOrderServlet extends HttpServlet {
             OrderList orderList = orderListDAO.getOrderListById(meal.getOlistId());
             OrderItemDAO orderItemDAO = new OrderItemDAO();
             CookScheduleItemDAO cookScheduleItemDAO = new CookScheduleItemDAO();
-            
+            session.removeAttribute("allowedToDecrease");
             if (orderList != null) {
                 System.out.println("Submitting order for table: " + table.getTable_number());
+                orderListDAO.updateOrderStatus(orderList.getOrderList_id(), "pending");
                 List<OrderItem> items = orderItemDAO.getItemsByOrderListId(orderList.getOrderList_id());
                 for (OrderItem item : items) {
-                    System.out.println("Item: " + item.getItem().getItemName() +
-                            ", Quantity: " + item.getOrderItemQuantity());
+                    if(item.getBaseQuantity() < item.getOrderItemQuantity()) {
+                        cookScheduleItemDAO.updateStatus("pending", item.getOrderItem_id());
+                    }
+                    item.setBaseQuantity(item.getOrderItemQuantity());
+                    orderItemDAO.updateOrderItemBaseQuantity(orderList.getOrderList_id(), item.getOrderItem_id(), item.getBaseQuantity());
+                    System.out.println("Item: " + item.getItem().getItemName() + ", Quantity: " + item.getOrderItemQuantity() + ", Base Quantity: " + orderItemDAO.getOrderItemBaseQuantity(orderList.getOrderList_id(), item.getOrderItem_id()));
                 }
                 
                 session.setAttribute("summaryItems", items);

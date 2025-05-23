@@ -65,7 +65,6 @@ public class ChefScheduleServlet extends HttpServlet {
                 request.setAttribute("orderItems", orderItems);
                 request.setAttribute("selectedOlistId", olistId);
 
-                // Kiểm tra xem CookScheduleList đã tồn tại chưa
                 CookScheduleList schedule = scheduleListDAO.getScheduleByOlistIdAndUserId(olistId, userId);
                 System.out.println("ChefScheduleServlet: CookScheduleList retrieved - " + schedule);
                 if (schedule == null) {
@@ -100,44 +99,57 @@ public class ChefScheduleServlet extends HttpServlet {
         }
 
         try {
-            int scheduleId = Integer.parseInt(request.getParameter("scheduleId"));
-            int oitemId = Integer.parseInt(request.getParameter("oitemId"));
-            String completionTimeStr = request.getParameter("completionTime");
-            String status = request.getParameter("status");
+            String[] scheduleIds = request.getParameterValues("scheduleId[]");
+            String[] schlistIds = request.getParameterValues("schlistId[]");
+            String[] oitemIds = request.getParameterValues("oitemId[]");
+            String[] completionTimes = request.getParameterValues("completionTime[]");
+            String[] statuses = request.getParameterValues("status[]");
+            int olistId = -1;
 
-            int completionTime = 0;
-            if (completionTimeStr != null && !completionTimeStr.isEmpty()) {
-                completionTime = Integer.parseInt(completionTimeStr);
-            }
+            for (int i = 0; i < oitemIds.length; i++) {
+                int scheduleId = Integer.parseInt(scheduleIds[i]);
+                int schlistId = Integer.parseInt(schlistIds[i]);
+                int oitemId = Integer.parseInt(oitemIds[i]);
+                int completionTime = 0;
+                if (completionTimes[i] != null && !completionTimes[i].isEmpty()) {
+                    completionTime = Integer.parseInt(completionTimes[i]);
+                }
+                String status = statuses[i];
 
-            CookScheduleItem item = new CookScheduleItem();
-            item.setScheduleId(scheduleId);
-            item.setOitemId(oitemId);
-            item.setOitemTimeCook(completionTime);
-            item.setStatus(status);
-            scheduleItemDAO.updateItem(item);
+                CookScheduleItem item = new CookScheduleItem();
+                item.setScheduleId(scheduleId);
+                item.setOitemId(oitemId);
+                item.setOitemTimeCook(completionTime);
+                item.setStatus(status);
 
-            int schlistId = Integer.parseInt(request.getParameter("schlistId"));
-            CookScheduleList schedule = scheduleListDAO.getScheduleById(schlistId);
-            if (schedule == null) {
-                throw new ServletException("Schedule with schlistId " + schlistId + " not found");
-            }
-            int olistId = schedule.getOlistId();
+                scheduleItemDAO.updateItem(item);
 
-            // Kiểm tra và cập nhật trạng thái
-            if (scheduleItemDAO.hasCookingStatus(schlistId) || "cooking".equals(status)) {
-                scheduleListDAO.updateStatus(schlistId, "cooking");
-                orderListDAO.updateOrderStatus(olistId, "preparing");
-            }
+                if ("completed".equals(status)) {
+                    OrderItem orderItem = orderItemDAO.getOrderItemById(oitemId);
+                    scheduleItemDAO.updateCompletedQuantity(orderItem.getBaseQuantity(), oitemId);
+                }
 
-            // Kiểm tra nếu tất cả hoàn thành
-            if (scheduleItemDAO.areAllItemsCompleted(schlistId)) {
-                scheduleListDAO.updateStatus(schlistId, "completed");
-                orderListDAO.updateOrderStatus(olistId, "served");
+                CookScheduleList schedule = scheduleListDAO.getScheduleById(schlistId);
+                if (schedule == null) {
+                    throw new ServletException("Schedule with schlistId " + schlistId + " not found");
+                }
+                
+                olistId = schedule.getOlistId();
+
+                // Cập nhật trạng thái của schedule và orderList nếu cần
+                if (scheduleItemDAO.hasCookingStatus(schlistId) || "cooking".equals(status)) {
+                    scheduleListDAO.updateStatus(schlistId, "cooking");
+                    orderListDAO.updateOrderStatus(olistId, "preparing");
+                }
+
+                if (scheduleItemDAO.areAllItemsCompleted(schlistId)) {
+                    scheduleListDAO.updateStatus(schlistId, "completed");
+                    orderListDAO.updateOrderStatus(olistId, "served");
+                }
             }
 
             System.out.println("ChefScheduleServlet: Redirecting after successful update");
-            response.sendRedirect("schedule?success=true");
+            response.sendRedirect("schedule?success=true&olistId=" + olistId);
 
         } catch (Exception e) {
             System.err.println("ChefScheduleServlet: Error in doPost - " + e.getMessage());

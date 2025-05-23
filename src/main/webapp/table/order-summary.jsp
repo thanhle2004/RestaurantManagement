@@ -22,7 +22,7 @@
     CookScheduleItemDAO cookScheduleItemDAO = new CookScheduleItemDAO();
     String error = (String) session.getAttribute("error");
     if (error != null) {
-        session.removeAttribute("error"); // clear sau khi hiển thị
+        session.removeAttribute("error"); 
     }
 %>
 
@@ -76,7 +76,7 @@
                     <td><%= item.getItem().getItemName() %></td>
                     <td><%= item.getOrderItemQuantity() %></td>
                     <td>$<%= item.getItem().getItemPrice() %></td>
-                    <td><%= completionTime > 0 ? completionTime : "N/A" %></td>
+                    <td><%= completionTime > 0 ? completionTime : "Estimating" %></td>
                     <td>$<%= item.getOrderItemQuantity() * item.getItem().getItemPrice() %></td>
                 </tr>
             <% } %>

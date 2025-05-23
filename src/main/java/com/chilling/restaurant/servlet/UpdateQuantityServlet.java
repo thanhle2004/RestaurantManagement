@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.chilling.restaurant.servlet;
 
+import com.chilling.restaurant.dao.CookScheduleItemDAO;
+import com.chilling.restaurant.dao.CookScheduleListDAO;
 import com.chilling.restaurant.dao.OrderItemDAO;
 import com.chilling.restaurant.dao.OrderListDAO;
 import com.chilling.restaurant.model.OrderItem;
@@ -14,7 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @WebServlet("/update-quantity")
 public class UpdateQuantityServlet extends HttpServlet {
@@ -25,28 +24,37 @@ public class UpdateQuantityServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         OrderList orderList = (OrderList) session.getAttribute("orderList");
+        CookScheduleItemDAO cookScheduleItemDAO = new CookScheduleItemDAO();
+        CookScheduleListDAO cookScheduleListDAO = new CookScheduleListDAO();
+        OrderItemDAO orderItemDAO = new OrderItemDAO();
 
         if (orderList != null) {
             int olist_id = orderList.getOrderList_id();
-            OrderItemDAO dao = new OrderItemDAO();
+            boolean isPending = !cookScheduleItemDAO.hasCookingStatus(olist_id);
 
-            // Lấy số lượng hiện tại từ DB
-            OrderItem item = dao.getOrderItemById(oitem_id); // bạn cần thêm method này trong DAO
+            OrderItemDAO dao = new OrderItemDAO();
+            OrderItem item = dao.getOrderItemById(oitem_id);
+
             if (item != null) {
                 int quantity = item.getOrderItemQuantity();
 
                 if ("increase".equals(action)) {
                     quantity++;
-                } else if ("decrease".equals(action) && quantity > 1) {
-                    quantity--;
+                } else if ("decrease".equals(action)) {
+                    if (quantity > 1) {
+                        quantity--;
+                    } else {
+                        if(cookScheduleListDAO.getScheduleByOlistId(olist_id) != null) {
+                            cookScheduleItemDAO.deleteCookScheduleItem(cookScheduleListDAO.getScheduleListIdByOlistId(olist_id), oitem_id);
+                        }
+                        orderItemDAO.deleteOrderItem(olist_id, oitem_id);
+                    }
                 }
 
                 dao.updateOrderItemQuantity(olist_id, oitem_id, quantity);
             }
         }
 
-        // Không đụng tới session nữa, chỉ redirect
         response.sendRedirect("table-menu");
     }
 }
-

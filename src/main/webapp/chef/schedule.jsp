@@ -3,6 +3,7 @@
 <%@include file="/WEB-INF/includes/check-chef.jsp" %>
 <% 
     CookScheduleItemDAO cookScheduleItemDAO = new CookScheduleItemDAO();
+    OrderListDAO orderListDAO = new OrderListDAO();
     List<OrderList> orderLists = (List<OrderList>) request.getAttribute("orderLists");
     List<OrderItem> orderItems = (List<OrderItem>) request.getAttribute("orderItems");
     Integer selectedOlistId = (Integer) request.getAttribute("selectedOlistId");
@@ -15,11 +16,9 @@
 </head>
 <body>
     
-
-    <!-- Thêm nút Cập nhật thông tin và Quay lại -->
     <div>
-        <a href="<%= request.getContextPath() %>/chef/update-profile">Cập nhật thông tin</a>
-        <a href="<%= request.getContextPath() %>/restaurant-login.jsp">Quay lại</a>
+        <a href="<%= request.getContextPath() %>/chef/update-profile">Profile</a>
+        <a href="<%= request.getContextPath() %>/restaurant-login.jsp">Log out</a>
     </div>
     
     
@@ -35,7 +34,8 @@
     <% if (orderLists != null && !orderLists.isEmpty()) { %>
         <ul>
             <% for (OrderList orderList : orderLists) { %>
-                <% Table table = orderList.getTable(); %>
+                <% if(!orderList.getOrderStatus().equals("ordering") && orderList.getTable().getTable_number() != 0) {
+                    Table table = orderList.getTable(); %>
                 <li>
                     Order #<%= orderList.getOrderList_id() %> (Table <%= table != null ? table.getTable_number() : "N/A" %>)
                     <form action="schedule" method="get">
@@ -43,55 +43,58 @@
                         <button type="submit">Select Order</button>
                     </form>
                 </li>
-            <% } %>
+            <% }} %>
         </ul>
     <% } else { %>
         <p>No pending orders available.</p>
     <% } %>
 
-    <!-- show form input time Order List -->
-    <% if (selectedOlistId != null && orderItems != null) { %>
+    <% if (selectedOlistId != null && orderItems != null && !orderListDAO.getOrderStatus(selectedOlistId).equals("ordering")) { %>
         <h3>Order #<%= selectedOlistId %> Details</h3>
+        <form action="schedule" method="post">
         <table border="1" cellpadding="5">
             <tr>
                 <th>Item Name</th>
                 <th>Quantity</th>
+                <th>Completed Quantity</th>
                 <th>Completion Time (minutes)</th>
                 <th>Status</th>
             </tr>
             <% for (OrderItem orderItem : orderItems) { %>
-                <%-- Kiểm tra hoặc tạo CookScheduleItem liên kết với món ăn --%>
                 <% CookScheduleItem scheduleItem = cookScheduleItemDAO.getItemByOitemIdAndSchlistId(orderItem.getOrderItem_id(), schedule.getSchlistId()); %>
                 <% if (scheduleItem == null) {
                     scheduleItem = new CookScheduleItem();
                     scheduleItem.setOitemId(orderItem.getOrderItem_id());
                     scheduleItem.setSchlistId(schedule.getSchlistId());
                     scheduleItem.setStatus("pending");
+                    scheduleItem.setCompleted_quantity(0);
                     cookScheduleItemDAO.createItem(scheduleItem);
                 } %>
                 <tr>
                     <td><%= orderItem.getItem().getItemName() %></td>
                     <td><%= orderItem.getOrderItemQuantity() %></td>
+                    <td><%= cookScheduleItemDAO.getCompletedQuantity(schedule.getSchlistId(), orderItem.getOrderItem_id()) %></td>
                     <td>
-                        <form action="schedule" method="post">
-                            <input type="hidden" name="scheduleId" value="<%= scheduleItem.getScheduleId() %>"/>
-                            <input type="hidden" name="schlistId" value="<%= schedule.getSchlistId() %>"/>
-                            <input type="hidden" name="oitemId" value="<%= orderItem.getOrderItem_id() %>"/>
-                            <input type="number" name="completionTime" min="0" 
-                                   value="<%= scheduleItem.getOitemTimeCook() > 0 ? scheduleItem.getOitemTimeCook() : "" %>" 
+                            <input type="hidden" name="scheduleId[]" value="<%= scheduleItem.getScheduleId() %>"/>
+                            <input type="hidden" name="schlistId[]" value="<%= schedule.getSchlistId() %>"/>
+                            <input type="hidden" name="oitemId[]" value="<%= orderItem.getOrderItem_id() %>"/>
+                            <input type="number" name="completionTime[]" min="0" 
+                                   value="<%= scheduleItem.getOitemTimeCook() > 0 ? scheduleItem.getOitemTimeCook() : orderItem.getItem().getItemTimeCook() %>" 
                                    placeholder="Minutes to complete"/>
-                            <select name="status">
+                            <select name="status[]">
                                 <option value="pending" <%= "pending".equals(scheduleItem.getStatus()) ? "selected" : "" %>>pending</option>
                                 <option value="cooking" <%= "cooking".equals(scheduleItem.getStatus()) ? "selected" : "" %>>cooking</option>
                                 <option value="completed" <%= "completed".equals(scheduleItem.getStatus()) ? "selected" : "" %>>completed</option>
                             </select>
-                            <button type="submit">Update</button>
-                        </form>
+                            
                     </td>
-                    <td><%= scheduleItem.getStatus() %></td>
+                    <td><%= orderListDAO.getOrderStatus(selectedOlistId) %></td>
                 </tr>
             <% } %>
         </table>
+        <button type="submit">Send to customer</button>
+        </form>
+        <a href="<%= request.getContextPath() %>/chef/schedule">Close</a>
     <% } %>
 </body>
 </html>

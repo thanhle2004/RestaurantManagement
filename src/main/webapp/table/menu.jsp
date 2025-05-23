@@ -1,3 +1,5 @@
+<%@page import="com.chilling.restaurant.dao.OrderItemDAO"%>
+<%@page import="java.util.Set"%>
 <%@page import="com.chilling.restaurant.model.Meal"%>
 <%@page import="com.chilling.restaurant.model.OrderItem"%>
 <%@page import="com.chilling.restaurant.model.OrderList"%>
@@ -12,7 +14,15 @@
     String totalAmount = (String) session.getAttribute("totalAmount");
     OrderList orderList = (OrderList) session.getAttribute("orderList");
     List<OrderItem> orderItems = (List<OrderItem>) session.getAttribute("orderItems");
-    
+    boolean isPending = (boolean) request.getAttribute("isPending");
+    String action = request.getParameter("action");
+    OrderItemDAO orderItemDAO = new OrderItemDAO();
+
+    if (!isPending && "decrease".equals(action)) {
+        response.sendRedirect("menu.jsp?error=Cannot decrease quantity while order is being prepared");
+        return;
+    }
+
     String message = request.getParameter("message");
     String error = request.getParameter("error");
     if (message != null) {
@@ -77,9 +87,18 @@
                 <td><img src="<%= item.getItem().getItemImgPath() %>" width="80" height="80" alt="alt"/></td>
                 <td><%= item.getItem().getItemName() %></td>
                 <td>
-                    <a href="update-quantity?id=<%= item.getOrderItem_id()%>&action=decrease">-</a>
-                    <%= item.getOrderItemQuantity() %>
-                    <a href="update-quantity?id=<%= item.getOrderItem_id() %>&action=increase">+</a>
+                    <td>
+                        <% if (isPending || item.getOrderItemQuantity() > orderItemDAO.getOrderItemBaseQuantity(orderList.getOrderList_id(), item.getOrderItem_id())) { 
+                            System.out.println("Quantity: " + item.getOrderItemQuantity() + ", Base quantity:" + orderItemDAO.getOrderItemBaseQuantity(orderList.getOrderList_id(), item.getOrderItem_id()));
+                        %>
+                            <a href="update-quantity?id=<%= item.getOrderItem_id()%>&action=decrease">-</a>
+                        <% } else { %>
+                            <span style="color:gray;">-</span>
+                        <% } %>
+                        <%= item.getOrderItemQuantity() %>
+                        <a href="update-quantity?id=<%= item.getOrderItem_id() %>&action=increase">+</a>
+                    </td>
+
                 </td>
                 <td>$<%= item.getItem().getItemPrice() %></td>
                 <td>$<%= item.getOrderItemQuantity() * item.getItem().getItemPrice() %></td>

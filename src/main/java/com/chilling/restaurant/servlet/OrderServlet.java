@@ -69,7 +69,6 @@ public class OrderServlet extends HttpServlet {
             int newQuantity = previousQuantity + 1;
 
             if (isPending || newQuantity >= previousQuantity) {
-                // cho phép cập nhật nếu đơn còn pending hoặc đang tăng số lượng
                 existingItem.setOrderItemQuantity(newQuantity);
                 orderItemDAO.updateOrderItemQuantity(
                     existingItem.getOrderList_id(),
@@ -77,11 +76,10 @@ public class OrderServlet extends HttpServlet {
                     newQuantity
                 );
             } else {
-                session.setAttribute("error", "Không thể giảm số lượng món đã gọi!");
+                session.setAttribute("error", "Cannot reduce the number of items ordered!");
             }
         } else {
-            // Món chưa từng gọi → thêm mới
-            OrderItem newItem = new OrderItem(0, orderList.getOrderList_id(), item, 1);
+            OrderItem newItem = new OrderItem(0, orderList.getOrderList_id(), item, 1, 0);
             orderItemDAO.insertOrderItem(newItem);
         }
 
