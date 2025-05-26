@@ -3,82 +3,106 @@
 <html>
 <head>
     <title>Meal Records</title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/view-record-style/styles14.css"/>
 </head>
 <body>
-
-<h2>Meal Records</h2>
-
-<form method="get" action="view-record">
-    Search by date: <input type="date" name="searchDate" />
-    <input type="submit" value="Search" />
-</form>
-
-<table border="1" cellpadding="8">
-    <tr>
-        <th>Meal ID</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Total Amount</th>
-        <th>Rating</th>
-        <th>Comment</th>
-        <th>Order List</th>
-    </tr>
-
-<%
-    List<Meal> meals = (List<Meal>) request.getAttribute("meals");
-    if (meals != null) {
-        for (Meal meal : meals) {
-%>
-    <tr>
-        <td><%= meal.getMealId() %></td>
-        <td><%= meal.getStartTime() %></td>
-        <td><%= meal.getEndTime() %></td>
-        <td><%= meal.getAmount() %></td>
-        <td><%= meal.getRating() %></td>
-        <td><%= meal.getFeedback() %></td>
-        <td>
-            <form method="get" action="view-record">
-                <input type="hidden" name="viewMealId" value="<%= meal.getMealId() %>" />
-                <input type="hidden" name="searchDate" value="<%= request.getAttribute("searchDate") != null ? request.getAttribute("searchDate") : "" %>">
-                <input type="submit" value="View" />
-            </form>
-        </td>
-    </tr>
-<%
+    <%
+        String message = request.getParameter("message");
+        String error = request.getParameter("error");
+    %>
+    <header class="manager-header">
+        <a href="manager-dashboard.jsp" class="back-button header-back">← Back</a>
+    </header>
+    <%
+        if (message != null) {
+    %>
+        <p class="message text-center"><%= message %></p>
+    <%
+        } else if (error != null) {
+    %>
+        <p class="error text-center"><%= error %></p>
+    <%
         }
-    }
-%>
-</table>
+    %>
+    <h2 class="form-title">Meal Records</h2>
 
-<%
-    Meal selectedMeal = (Meal) request.getAttribute("selectedMeal");
-    if (selectedMeal != null && selectedMeal.getOrderItems() != null) {
-%>
-    <h3>Order Items for Meal ID <%= selectedMeal.getMealId() %></h3>
-    <table border="1" cellpadding="6">
-        <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-<%
-        for (OrderItem item : selectedMeal.getOrderItems()) {
-            double total = item.getOrderItemQuantity() * item.getItem().getItemPrice();
-%>
-        <tr>
-            <td><%= item.getItem().getItemName() %></td>
-            <td><%= item.getOrderItemQuantity() %></td>
-            <td><%= item.getItem().getItemPrice() %></td>
-            <td><%= total %></td>
-        </tr>
-<%
+    <form method="get" action="view-record" class="search-form">
+        Search by date: <input type="date" name="searchDate" />
+        <input type="submit" value="Search" />
+    </form>
+
+    <%
+        List<Meal> meals = (List<Meal>) request.getAttribute("meals");
+        if (meals != null && !meals.isEmpty()) {
+    %>
+        <table border="1" cellpadding="8" class="meal-table">
+            <tr>
+                <th>Meal ID</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Total Amount</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Order List</th>
+            </tr>
+            <%
+                for (Meal meal : meals) {
+            %>
+                <tr>
+                    <td><%= meal.getMealId() %></td>
+                    <td><%= meal.getStartTime() %></td>
+                    <td><%= meal.getEndTime() %></td>
+                    <td><%= meal.getAmount() %></td>
+                    <td><%= meal.getRating() %></td>
+                    <td><%= meal.getFeedback() %></td>
+                    <td>
+                        <form method="get" action="view-record">
+                            <input type="hidden" name="viewMealId" value="<%= meal.getMealId() %>" />
+                            <input type="hidden" name="searchDate" value="<%= request.getAttribute("searchDate") != null ? request.getAttribute("searchDate") : "" %>">
+                            <input type="submit" value="View" />
+                        </form>
+                    </td>
+                </tr>
+            <%
+                }
+            %>
+        </table>
+    <%
+        } else {
+    %>
+        <p class="empty-message">No meal records found.</p>
+    <%
         }
-%>
-    </table>
-<%
-    }
-%>
+    %>
 
+    <%
+        Meal selectedMeal = (Meal) request.getAttribute("selectedMeal");
+        if (selectedMeal != null && selectedMeal.getOrderItems() != null && !selectedMeal.getOrderItems().isEmpty()) {
+    %>
+        <h3 class="section-title">Order Items for Meal ID <%= selectedMeal.getMealId() %></h3>
+        <table border="1" cellpadding="6" class="order-table">
+            <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+            <%
+                for (OrderItem item : selectedMeal.getOrderItems()) {
+                    double total = item.getOrderItemQuantity() * item.getItem().getItemPrice();
+            %>
+                <tr>
+                    <td><%= item.getItem().getItemName() %></td>
+                    <td><%= item.getOrderItemQuantity() %></td>
+                    <td><%= item.getItem().getItemPrice() %></td>
+                    <td><%= total %></td>
+                </tr>
+            <%
+                }
+            %>
+        </table>
+    <%
+        }
+    %>
 </body>
 </html>

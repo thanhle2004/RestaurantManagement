@@ -7,7 +7,6 @@ package com.chilling.restaurant.servlet;
 import com.chilling.restaurant.utils.DBUtil;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -41,7 +40,7 @@ public class CheckManagerServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(CheckManagerServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         request.setAttribute("managerExists", managerExists);
         RequestDispatcher dispatcher = request.getRequestDispatcher("restaurant-login.jsp");
         dispatcher.forward(request, response);

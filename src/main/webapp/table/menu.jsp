@@ -39,89 +39,109 @@
 <html>
 <head>
     <title>Menu for Table <%= table.getTable_number() %></title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/menu-style/styles12.css"/>
 </head>
 <body>
-    <h1>Welcome, Table <%= table.getTable_number() %>!</h1>
-    <h2>Food</h2>
-    <ul>
-    <% for (MenuItem food : foodList) { %>
-        <li>
-            <a href="add-to-order?id=<%= food.getItemId() %>&name=<%= food.getItemName() %>&price=<%= food.getItemPrice() %>&img=<%= food.getItemImgPath() %>&time=<%= food.getItemTimeCook() %>">
-                <img src="<%= food.getItemImgPath() %>" alt="alt" width="80" />
-                <%= food.getItemName() %> - $<%= food.getItemPrice() %>
-            </a>
-        </li>
-    <% } %>
-    </ul>
-
-    <h2>Drink</h2>
-    <ul>
-    <% for (MenuItem drink : drinkList) { %>
-        <li>
-            <a href="add-to-order?id=<%= drink.getItemId() %>&name=<%= drink.getItemName() %>&price=<%= drink.getItemPrice() %>&img=<%= drink.getItemImgPath() %>&time=<%= drink.getItemTimeCook() %>">
-                <img src="<%= drink.getItemImgPath() %>" alt="alt" width="80" />
-                <%= drink.getItemName() %> - $<%= drink.getItemPrice() %>
-            </a>
-        </li>
-    <% } %>
-    </ul>
+    <header class="manager-header">
+        <a href="table-dashboard.jsp" class="back-button header-back">Back</a>
+    </header>
+    <div class="menu-wrapper">
+    <aside class="sidebar">
+        <a href="#" class="sidebar-item">Home</a>
+        <a href="#" class="sidebar-item active">Food</a>
+        <a href="#" class="sidebar-item">Drink</a>
+        <a href="#" class="sidebar-item">Dessert</a>
+        <a href="#" class="sidebar-item">Table</a>
+        <a href="#" class="sidebar-item">Menu</a>
+        <a href="#" class="sidebar-item">Feedback</a>
+        <a href="#" class="sidebar-item">Settings</a>
+    </aside>
+    <div class="main-content">
+        <% if (message != null) { %>
+            <p class="message"><%= message %></p>
+        <% } else if (error != null) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <h1 class="form-title">Menu for Table <%= table.getTable_number() %></h1>
+        <h2 class="section-title">Food</h2>
+        <div class="menu-grid">
+            <% for (MenuItem food : foodList) { %>
+                <div class="menu-item">
+                    <img src="<%= food.getItemImgPath() %>" alt="<%= food.getItemName() %>" />
+                    <h3><%= food.getItemName() %></h3>
+                    <p class="price">$<%= food.getItemPrice() %></p>
+                    <a href="add-to-order?id=<%= food.getItemId() %>&name=<%= food.getItemName() %>&price=<%= food.getItemPrice() %>&img=<%= food.getItemImgPath() %>&time=<%= food.getItemTimeCook() %>" class="add-btn">Add</a>
+                </div>
+            <% } %>
+        </div>
+        <h2 class="section-title">Drink</h2>
+        <div class="menu-grid">
+            <% for (MenuItem drink : drinkList) { %>
+                <div class="menu-item">
+                    <img src="<%= drink.getItemImgPath() %>" alt="<%= drink.getItemName() %>" />
+                    <h3><%= drink.getItemName() %></h3>
+                    <p class="price">$<%= drink.getItemPrice() %></p>
+                    <a href="add-to-order?id=<%= drink.getItemId() %>&name=<%= drink.getItemName() %>&price=<%= drink.getItemPrice() %>&img=<%= drink.getItemImgPath() %>&time=<%= drink.getItemTimeCook() %>" class="add-btn">Add</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
     
-    <h2>Your Order</h2>
-    <%
-        if (orderList != null && orderItems != null) {
-    %>
-    <form action="submit-order" method="post">
-        <table border="1">
-            <tr>
-                <th>Image</th>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Subtotal</th>
-                <th>Action</th>
-            </tr>
-        <%
-            for (OrderItem item : orderItems) {
-        %>
-            <tr>
-                <td><img src="<%= item.getItem().getItemImgPath() %>" width="80" height="80" alt="alt"/></td>
-                <td><%= item.getItem().getItemName() %></td>
-                <td>
-                    <td>
-                        <% if (isPending || item.getOrderItemQuantity() > orderItemDAO.getOrderItemBaseQuantity(orderList.getOrderList_id(), item.getOrderItem_id())) { 
-                            System.out.println("Quantity: " + item.getOrderItemQuantity() + ", Base quantity:" + orderItemDAO.getOrderItemBaseQuantity(orderList.getOrderList_id(), item.getOrderItem_id()));
-                        %>
-                            <a href="update-quantity?id=<%= item.getOrderItem_id()%>&action=decrease">-</a>
-                        <% } else { %>
-                            <span style="color:gray;">-</span>
-                        <% } %>
-                        <%= item.getOrderItemQuantity() %>
-                        <a href="update-quantity?id=<%= item.getOrderItem_id() %>&action=increase">+</a>
-                    </td>
+    <aside class="order-sidebar">
+        <h2 class="section-title">Current Order</h2>
+        <p>Order #<%= orderList != null ? orderList.getOrderList_id() : "N/A" %></p>
+        <p>Table <%= table != null ? table.getTable_number() : "N/A" %></p>
 
-                </td>
-                <td>$<%= item.getItem().getItemPrice() %></td>
-                <td>$<%= item.getOrderItemQuantity() * item.getItem().getItemPrice() %></td>
-                <td>
-                    <a href="remove-from-order?id=<%= item.getOrderItem_id() %>">Remove</a>
-                </td>
-            </tr>
-        <%
-            }
+        <div class="order-type">
+            <label><input type="radio" name="order-type" value="dine-in" checked> Dine In</label>
+            <label><input type="radio" name="order-type" value="take-away"> Take Away</label>
+        </div>
+
+        <ul class="order-items">
+            <% 
+                double subtotal = 0;
+                if (orderItems != null && !orderItems.isEmpty()) {
+                    for (OrderItem item : orderItems) {
+                        double itemPrice = item.getItem().getItemPrice();
+                        int quantity = item.getOrderItemQuantity();
+                        double itemTotal = itemPrice * quantity;
+                        subtotal += itemTotal;
+            %>
+                <li>
+                    <%= item.getItem().getItemName() %> - $<%= item.getItem().getItemPrice() %> 
+                    <span class="quantity">x<%= item.getOrderItemQuantity() %></span>
+                    <div class="quantity-controls">
+                        <% if (isPending || item.getOrderItemQuantity() > orderItemDAO.getOrderItemBaseQuantity(orderList.getOrderList_id(), item.getOrderItem_id())) { %>
+                            <a href="update-quantity?id=<%= item.getOrderItem_id()%>&action=decrease" class="quantity-btn">-</a>
+                        <% } else { %>
+                            <span class="quantity-btn disabled">-</span>
+                        <% } %>
+                        <a href="update-quantity?id=<%= item.getOrderItem_id() %>&action=increase" class="quantity-btn">+</a>
+                    </div>
+                    <a href="remove-from-order?id=<%= item.getOrderItem_id() %>" class="remove-btn">Remove</a>
+                </li>
+            <% 
+                    }
+                } else { 
+            %>
+                <li class="empty-order">No items yet</li>
+            <% } %>
+        </ul>
+
+        <% if (orderItems != null && !orderItems.isEmpty()) { 
+            double take10Percent = subtotal * 0.9;
         %>
-            <tr>
-                <td colspan="4"><strong>Total</strong></td>
-                <td colspan="2"><strong>$<%= totalAmount %></strong></td>
-            </tr>
-        </table>
-    <%
-        } else {
-    %>
-        <p>Order list is empty.</p>
-    <%
-        }
-    %>
-        <input type="submit" value="Submit Order" />
-    </form>
+            <p class="total">Items: <%= orderItems.size() %></p>
+            <p class="total">Take 10%: $<%= String.format("%.2f", take10Percent) %></p>
+            <p class="total">Total: $<%= String.format("%.2f", subtotal) %></p>
+
+            <div class="order-actions">
+                <form action="submit-order" method="post" style="display: inline;">
+                    <button type="submit" class="custom-button">Submit Order</button>
+                </form>
+            </div>
+        <% } %>
+    </aside>
+    </div>
 </body>
 </html>

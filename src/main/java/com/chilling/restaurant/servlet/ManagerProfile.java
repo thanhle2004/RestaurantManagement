@@ -3,28 +3,29 @@ package com.chilling.restaurant.servlet;
 import com.chilling.restaurant.dao.UserDAO;
 import com.chilling.restaurant.model.User;
 import com.chilling.restaurant.utils.AuthUtil;
+import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import java.io.IOException;
-
-@WebServlet("/chef/update-profile")
-public class UpdateProfileServlet extends HttpServlet {
+@WebServlet("/manager/view-profile")
+public class ManagerProfile extends HttpServlet {
     private UserDAO userDAO = new UserDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!AuthUtil.checkRole(request, response, "chef")) return;
+        if (!AuthUtil.checkRole(request, response, "manager")) return;
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         request.setAttribute("user", user);
-        request.getRequestDispatcher("/chef/update-profile.jsp").forward(request, response);
+        request.getRequestDispatcher("/manager/view-profile.jsp").forward(request, response);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class UpdateProfileServlet extends HttpServlet {
         String currentPassword = request.getParameter("currentPassword");
 
         if (userId == null || !userId.equals(String.valueOf(currentUser.getUserId()))) {
-            response.sendRedirect(request.getContextPath() + "/chef/update-profile?error=Invalid user ID");
+            response.sendRedirect(request.getContextPath() + "/manager/view-profile?error=Invalid user ID");
             return;
         }
 

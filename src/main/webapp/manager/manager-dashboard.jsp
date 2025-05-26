@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
     </head>
     <header class="manager-header">
-        <a href="/restaurant/restaurant-login.jsp" class="back-button header-back">← Log Out</a>
+        <a href="/restaurant/check-manager" class="back-button header-back">← Log Out</a>
     </header>
     <body>
         <h1 class="title">Hello Manager</h1> 
@@ -24,8 +24,8 @@
             </div>
             <div class="button-row">
                 <a href="view-record" class="custom-button">Records</a>
-                <a href="view-stats" class="custom-button">Stats</a>
-                <a href="profile" class="custom-button">Profile</a>
+                <a href="<%= request.getContextPath() %>/manager/view-stats.jsp" class="custom-button">Stats</a>
+                <a href="view-profile" class="custom-button">Profile</a>
             </div>
         </div>
 

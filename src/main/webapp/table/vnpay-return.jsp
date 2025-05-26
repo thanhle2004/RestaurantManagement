@@ -48,10 +48,6 @@
         message = "Unsuccessful. Error Code: " + responseCode;
     } else {
         message = "Successful!";
-        
-        BillDAO billDAO = new BillDAO();
-        bill.setPayment_status("paid");
-        billDAO.updateBillStatus(bill);
     }
     
     session.setAttribute("bill", bill);

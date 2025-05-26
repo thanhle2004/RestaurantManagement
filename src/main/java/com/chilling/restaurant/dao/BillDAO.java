@@ -59,13 +59,21 @@ public class BillDAO {
         return null;
     }
     
-    public void updateBillStatus(Bill bill) throws SQLException {
-        String sql = "UPDATE bill SET payment_status=? WHERE bill_id=?";
-        try (Connection con = DBUtil.getConnection()) {
-            PreparedStatement stmt = con.prepareStatement(sql);
-            
-            stmt.setString(1, bill.getPayment_status());
-            stmt.setInt(2, bill.getBill_id());
+    public void updatePaymentStatusPaid(int bill_id) {
+        String sql = "UPDATE bill SET payment_status = ? WHERE bill_id = ?";
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setString(1, "paid");
+            stmt.setInt(2, bill_id);
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated == 0) {
+                System.out.println("No bill found with ID: " + bill_id);
+            } else {
+                System.out.println("Bill ID " + bill_id + " updated to 'paid'");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

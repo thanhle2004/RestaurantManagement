@@ -1,6 +1,6 @@
 <%@ page import="com.chilling.restaurant.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@include file="/WEB-INF/includes/check-chef.jsp" %>
+<%@include file="/WEB-INF/includes/check-manager.jsp" %>
 <%
     User user = (User) session.getAttribute("user");
 %>
@@ -61,7 +61,7 @@
 <!-- Modal -->
 <div id="modal-overlay" class="modal-overlay">
     <div class="modal-box">
-        <form method="post" action="<%= request.getContextPath() %>/chef/update-profile">
+        <form method="post" action="<%= request.getContextPath() %>/manager/view-profile">
             <input type="hidden" name="field" id="modal-field">
             <input type="hidden" name="userId" id="modal-userId">
 
@@ -83,7 +83,7 @@
     </div>
 </div>
 
-<a href="<%= request.getContextPath() %>/chef/schedule">Back</a>
+<a href="<%= request.getContextPath() %>/manager/manager-dashboard.jsp">Back</a>
 
 <script>
     function showModal(field, label, currentValue) {

@@ -18,7 +18,7 @@
     
     <div>
         <a href="<%= request.getContextPath() %>/chef/update-profile">Profile</a>
-        <a href="<%= request.getContextPath() %>/restaurant-login.jsp">Log out</a>
+        <a href="<%= request.getContextPath() %>/check-manager">Log out</a>
     </div>
     
     
