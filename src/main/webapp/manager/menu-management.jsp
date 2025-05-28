@@ -76,7 +76,7 @@
             <td><%= drink.getItemPrice() %></td>
             <td><%= drink.getItemTimeCook() %></td>
             <td>
-                <a href="menu-edit?id=<%= drink.getItemId() %>">Edit</a> |
+                <a href="menu-edit?id=<%= drink.getItemId() %>">Edit</a>
                 <a href="menu-delete?id=<%= drink.getItemId() %>" onclick="return confirm('Delete this drink?')">Delete</a>
             </td>
         </tr>

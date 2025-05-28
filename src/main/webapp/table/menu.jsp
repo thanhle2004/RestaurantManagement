@@ -42,19 +42,15 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/menu-style/styles12.css"/>
 </head>
 <body>
-    <header class="manager-header">
-        <a href="table-dashboard.jsp" class="back-button header-back">Back</a>
-    </header>
-    <div class="menu-wrapper">
+<header class="manager-header">
+    <a href="table-dashboard.jsp" class="back-button header-back">Back</a>
+</header>
+<div class="menu-wrapper">
     <aside class="sidebar">
-        <a href="#" class="sidebar-item">Home</a>
-        <a href="#" class="sidebar-item active">Food</a>
-        <a href="#" class="sidebar-item">Drink</a>
-        <a href="#" class="sidebar-item">Dessert</a>
-        <a href="#" class="sidebar-item">Table</a>
-        <a href="#" class="sidebar-item">Menu</a>
-        <a href="#" class="sidebar-item">Feedback</a>
-        <a href="#" class="sidebar-item">Settings</a>
+        <a href="#" class="sidebar-item" onclick="filterMenu('all')">All</a>
+        <a href="#" class="sidebar-item" onclick="filterMenu('food')">Food</a>
+        <a href="#" class="sidebar-item" onclick="filterMenu('drink')">Drink</a>
+        <a href="#" class="sidebar-item" onclick="filterMenu('dessert')">Dessert</a>
     </aside>
     <div class="main-content">
         <% if (message != null) { %>
@@ -63,10 +59,11 @@
             <p class="error"><%= error %></p>
         <% } %>
         <h1 class="form-title">Menu for Table <%= table.getTable_number() %></h1>
-        <h2 class="section-title">Food</h2>
+
+        <h2 id="food-title" class="section-title">Food</h2>
         <div class="menu-grid">
             <% for (MenuItem food : foodList) { %>
-                <div class="menu-item">
+                <div class="menu-item" data-category="food">
                     <img src="<%= food.getItemImgPath() %>" alt="<%= food.getItemName() %>" />
                     <h3><%= food.getItemName() %></h3>
                     <p class="price">$<%= food.getItemPrice() %></p>
@@ -74,10 +71,11 @@
                 </div>
             <% } %>
         </div>
-        <h2 class="section-title">Drink</h2>
+
+        <h2 id="drink-title" class="section-title">Drink</h2>
         <div class="menu-grid">
             <% for (MenuItem drink : drinkList) { %>
-                <div class="menu-item">
+                <div class="menu-item" data-category="drink">
                     <img src="<%= drink.getItemImgPath() %>" alt="<%= drink.getItemName() %>" />
                     <h3><%= drink.getItemName() %></h3>
                     <p class="price">$<%= drink.getItemPrice() %></p>
@@ -86,7 +84,7 @@
             <% } %>
         </div>
     </div>
-    
+
     <aside class="order-sidebar">
         <h2 class="section-title">Current Order</h2>
         <p>Order #<%= orderList != null ? orderList.getOrderList_id() : "N/A" %></p>
@@ -98,7 +96,7 @@
         </div>
 
         <ul class="order-items">
-            <% 
+            <%
                 double subtotal = 0;
                 if (orderItems != null && !orderItems.isEmpty()) {
                     for (OrderItem item : orderItems) {
@@ -108,7 +106,7 @@
                         subtotal += itemTotal;
             %>
                 <li>
-                    <%= item.getItem().getItemName() %> - $<%= item.getItem().getItemPrice() %> 
+                    <%= item.getItem().getItemName() %> - $<%= item.getItem().getItemPrice() %>
                     <span class="quantity">x<%= item.getOrderItemQuantity() %></span>
                     <div class="quantity-controls">
                         <% if (isPending || item.getOrderItemQuantity() > orderItemDAO.getOrderItemBaseQuantity(orderList.getOrderList_id(), item.getOrderItem_id())) { %>
@@ -120,15 +118,15 @@
                     </div>
                     <a href="remove-from-order?id=<%= item.getOrderItem_id() %>" class="remove-btn">Remove</a>
                 </li>
-            <% 
+            <%
                     }
-                } else { 
+                } else {
             %>
                 <li class="empty-order">No items yet</li>
             <% } %>
         </ul>
 
-        <% if (orderItems != null && !orderItems.isEmpty()) { 
+        <% if (orderItems != null && !orderItems.isEmpty()) {
             double take10Percent = subtotal * 0.9;
         %>
             <p class="total">Items: <%= orderItems.size() %></p>
@@ -142,6 +140,35 @@
             </div>
         <% } %>
     </aside>
-    </div>
+</div>
+
+<script>
+function filterMenu(category) {
+    const items = document.querySelectorAll('.menu-item');
+    const foodTitle = document.getElementById('food-title');
+    const drinkTitle = document.getElementById('drink-title');
+
+    // Reset visibility
+    foodTitle.style.display = 'none';
+    drinkTitle.style.display = 'none';
+
+    items.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+
+        if (category === 'all') {
+            item.style.display = 'block';
+            if (itemCategory === 'food') foodTitle.style.display = 'block';
+            if (itemCategory === 'drink') drinkTitle.style.display = 'block';
+        } else if (itemCategory === category) {
+            item.style.display = 'block';
+            if (category === 'food') foodTitle.style.display = 'block';
+            if (category === 'drink') drinkTitle.style.display = 'block';
+            // You can add support for 'dessert-title' here if needed
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+</script>
 </body>
 </html>
