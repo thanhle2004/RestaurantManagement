@@ -54,7 +54,7 @@ public class UpdateQuantityServlet extends HttpServlet {
                 dao.updateOrderItemQuantity(olist_id, oitem_id, quantity);
             }
         }
-
-        response.sendRedirect("table-menu");
+        String category = request.getParameter("category");
+        response.sendRedirect("table-menu"  + (category != null ? "?category=" + category : ""));
     }
 }

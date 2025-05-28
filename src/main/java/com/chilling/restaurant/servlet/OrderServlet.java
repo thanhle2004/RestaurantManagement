@@ -96,7 +96,9 @@ public class OrderServlet extends HttpServlet {
         session.setAttribute("meal", meal);
         session.setAttribute("orderList", orderList);
         session.setAttribute("orderItems", items);
+        
+        String category = request.getParameter("category");
 
-        response.sendRedirect("table-menu");
+        response.sendRedirect("table-menu?category=" + category);
     }
 }

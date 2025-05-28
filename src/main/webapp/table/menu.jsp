@@ -67,7 +67,7 @@
                     <img src="<%= food.getItemImgPath() %>" alt="<%= food.getItemName() %>" />
                     <h3><%= food.getItemName() %></h3>
                     <p class="price">$<%= food.getItemPrice() %></p>
-                    <a href="add-to-order?id=<%= food.getItemId() %>&name=<%= food.getItemName() %>&price=<%= food.getItemPrice() %>&img=<%= food.getItemImgPath() %>&time=<%= food.getItemTimeCook() %>" class="add-btn">Add</a>
+                    <a href="add-to-order?id=<%= food.getItemId() %>&name=<%= food.getItemName() %>&price=<%= food.getItemPrice() %>&img=<%= food.getItemImgPath() %>&time=<%= food.getItemTimeCook() %>&category=food" class="add-btn">Add</a>
                 </div>
             <% } %>
         </div>
@@ -79,7 +79,7 @@
                     <img src="<%= drink.getItemImgPath() %>" alt="<%= drink.getItemName() %>" />
                     <h3><%= drink.getItemName() %></h3>
                     <p class="price">$<%= drink.getItemPrice() %></p>
-                    <a href="add-to-order?id=<%= drink.getItemId() %>&name=<%= drink.getItemName() %>&price=<%= drink.getItemPrice() %>&img=<%= drink.getItemImgPath() %>&time=<%= drink.getItemTimeCook() %>" class="add-btn">Add</a>
+                    <a href="add-to-order?id=<%= drink.getItemId() %>&name=<%= drink.getItemName() %>&price=<%= drink.getItemPrice() %>&img=<%= drink.getItemImgPath() %>&time=<%= drink.getItemTimeCook() %>&category=drink" class="add-btn">Add</a>
                 </div>
             <% } %>
         </div>
@@ -110,11 +110,11 @@
                     <span class="quantity">x<%= item.getOrderItemQuantity() %></span>
                     <div class="quantity-controls">
                         <% if (isPending || item.getOrderItemQuantity() > orderItemDAO.getOrderItemBaseQuantity(orderList.getOrderList_id(), item.getOrderItem_id())) { %>
-                            <a href="update-quantity?id=<%= item.getOrderItem_id()%>&action=decrease" class="quantity-btn">-</a>
+                            <a href="update-quantity?id=<%= item.getOrderItem_id() %>&action=decrease&category=<%= request.getParameter("category") %>" class="quantity-btn">-</a>
                         <% } else { %>
                             <span class="quantity-btn disabled">-</span>
                         <% } %>
-                        <a href="update-quantity?id=<%= item.getOrderItem_id() %>&action=increase" class="quantity-btn">+</a>
+                        <a href="update-quantity?id=<%= item.getOrderItem_id() %>&action=increase&category=<%= request.getParameter("category") %>" class="quantity-btn">+</a>
                     </div>
                     <a href="remove-from-order?id=<%= item.getOrderItem_id() %>" class="remove-btn">Remove</a>
                 </li>
@@ -169,6 +169,45 @@ function filterMenu(category) {
         }
     });
 }
+</script>
+
+<script>
+    // Scroll restore script
+    window.addEventListener("beforeunload", function () {
+        sessionStorage.setItem("scrollPosition", window.scrollY);
+    });
+
+    window.addEventListener("load", function () {
+        const scrollPosition = sessionStorage.getItem("scrollPosition");
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition));
+            sessionStorage.removeItem("scrollPosition");
+        }
+    });
+</script>
+<script>
+    // Auto filter based on category from URL
+    window.addEventListener("load", function () {
+        const params = new URLSearchParams(window.location.search);
+        const category = params.get("category");
+        if (category) {
+            filterMenu(category);
+        }
+    });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get("category");
+
+    if (category) {
+        document.querySelectorAll('.quantity-btn, .remove-btn').forEach(link => {
+            const url = new URL(link.href);
+            url.searchParams.set("category", category);
+            link.href = url.toString();
+        });
+    }
+});
 </script>
 </body>
 </html>
