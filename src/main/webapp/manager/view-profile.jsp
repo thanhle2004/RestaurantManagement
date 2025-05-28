@@ -58,7 +58,6 @@
     <button onclick="showModal('phone', 'Change Phone Number', '<%= user.getPhone() %>')">Change</button><br><br>
 </div>
 
-<!-- Modal -->
 <div id="modal-overlay" class="modal-overlay">
     <div class="modal-box">
         <form method="post" action="<%= request.getContextPath() %>/manager/view-profile">
@@ -69,11 +68,11 @@
 
             <div id="modal-generic">
                 <input type="text" id="modal-input" name="" placeholder=""><br>
-                <input type="password" name="currentPassword" placeholder="Enter Password">
+                <input type="password" id="generic-currentPassword" name="currentPassword" placeholder="Enter Password">
             </div>
 
             <div id="modal-password" style="display: none;">
-                <input type="password" name="currentPassword" placeholder="Current Password"><br>
+                <input type="password" id="password-currentPassword" name="currentPassword" placeholder="Current Password"><br>
                 <input type="password" name="newPassword" placeholder="New Password">
             </div>
 
@@ -92,22 +91,27 @@
         document.getElementById('modal-field').value = field;
         document.getElementById('modal-userId').value = "<%= user.getUserId() %>";
 
-        // Reset modal
-        document.getElementById('modal-password').style.display = 'none';
-        document.getElementById('modal-generic').style.display = 'none';
+        const modalPassword = document.getElementById('modal-password');
+        const modalGeneric = document.getElementById('modal-generic');
+        const input = document.getElementById('modal-input');
+
+        // Reset visibility
+        modalPassword.style.display = 'none';
+        modalGeneric.style.display = 'none';
+
+        // Disable both currentPassword inputs
+        document.getElementById('generic-currentPassword').disabled = true;
+        document.getElementById('password-currentPassword').disabled = true;
 
         if (field === 'password') {
-            document.getElementById('modal-password').style.display = 'block';
+            modalPassword.style.display = 'block';
+            document.getElementById('password-currentPassword').disabled = false;
         } else {
-            document.getElementById('modal-generic').style.display = 'block';
-            const input = document.getElementById('modal-input');
+            modalGeneric.style.display = 'block';
             input.name = field;
             input.value = currentValue;
+            document.getElementById('generic-currentPassword').disabled = false;
         }
-    }
-
-    function closeModal() {
-        document.getElementById('modal-overlay').style.display = 'none';
     }
 </script>
 </body>

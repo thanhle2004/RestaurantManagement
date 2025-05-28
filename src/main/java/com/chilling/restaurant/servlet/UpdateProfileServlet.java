@@ -30,7 +30,7 @@ public class UpdateProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!AuthUtil.checkRole(request, response, "manager")) return;
+        if (!AuthUtil.checkRole(request, response, "chef")) return;
 
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
@@ -38,7 +38,7 @@ public class UpdateProfileServlet extends HttpServlet {
         String field = request.getParameter("field");
         String userId = request.getParameter("userId");
         String currentPassword = request.getParameter("currentPassword");
-
+        
         if (userId == null || !userId.equals(String.valueOf(currentUser.getUserId()))) {
             response.sendRedirect(request.getContextPath() + "/chef/update-profile?error=Invalid user ID");
             return;
@@ -75,6 +75,8 @@ public class UpdateProfileServlet extends HttpServlet {
                     if (newPassword == null || newPassword.trim().isEmpty()) {
                         throw new Exception("New password cannot be empty");
                     }
+                   
+                    System.out.println("NewPassword: " + newPassword);
                     updatedUser.setPassword(newPassword);
                     break;
 
@@ -117,9 +119,9 @@ public class UpdateProfileServlet extends HttpServlet {
 
             userDAO.updateUser(updatedUser);
             session.setAttribute("user", updatedUser);
-            response.sendRedirect(request.getContextPath() + "/manager/view-profile?success=true");
+            response.sendRedirect(request.getContextPath() + "/chef/update-profile?success=true");
         } catch (Exception e) {
-            response.sendRedirect(request.getContextPath() + "/manager/view-profile?error=" + e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/chef/update-profile?error=" + e.getMessage());
         }
     }
 }

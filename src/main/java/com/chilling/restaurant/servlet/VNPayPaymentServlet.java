@@ -54,6 +54,8 @@ public class VNPayPaymentServlet extends HttpServlet {
         System.out.println("bill id: " + bill.getBill_id());
         meal.setBillId(bill.getBill_id());
         
+        System.out.println(meal.getBillId());
+        
         MealDAO mealDAO = new MealDAO();
          try {
              mealDAO.updateBillIdInMeal(meal);

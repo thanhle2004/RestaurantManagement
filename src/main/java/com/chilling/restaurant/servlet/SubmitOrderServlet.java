@@ -59,7 +59,9 @@ public class SubmitOrderServlet extends HttpServlet {
                     orderListDAO.updateOrderStatus(orderList.getOrderList_id(), "served");
                 } else if(cookScheduleItemDAO.areCooking(cookScheduleListDAO.getScheduleIdByOlistId(orderList.getOrderList_id()))) {
                     orderListDAO.updateOrderStatus(orderList.getOrderList_id(), "preparing");
-                } 
+                } else {
+                    orderListDAO.updateOrderStatus(orderList.getOrderList_id(), "pending");
+                }
                 
                 session.setAttribute("summaryItems", items);
                 double summaryTotal = orderItemDAO.getTotalAmountByOrderListId(orderList.getOrderList_id());

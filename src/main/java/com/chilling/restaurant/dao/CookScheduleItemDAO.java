@@ -111,14 +111,31 @@ public class CookScheduleItemDAO {
     }
 
     public boolean areAllItemsCompleted(int schlistId) {
-        String sql = "SELECT COUNT(*) FROM cookscheduleitem WHERE schlist_id = ? AND status != 'completed'";
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, schlistId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) == 0; // Nếu không còn item nào không hoàn thành
+        String sqlTotal = "SELECT COUNT(*) FROM cookscheduleitem WHERE schlist_id = ?";
+        String sqlUnfinished = "SELECT COUNT(*) FROM cookscheduleitem WHERE schlist_id = ? AND status != 'completed'";
+        try (Connection conn = DBUtil.getConnection()) {
+            int total = 0;
+            int unfinished = 0;
+
+            try (PreparedStatement stmtTotal = conn.prepareStatement(sqlTotal)) {
+                stmtTotal.setInt(1, schlistId);
+                ResultSet rsTotal = stmtTotal.executeQuery();
+                if (rsTotal.next()) {
+                    total = rsTotal.getInt(1);
+                }
             }
+
+            if (total == 0) return false;
+
+            try (PreparedStatement stmtUnfinished = conn.prepareStatement(sqlUnfinished)) {
+                stmtUnfinished.setInt(1, schlistId);
+                ResultSet rsUnfinished = stmtUnfinished.executeQuery();
+                if (rsUnfinished.next()) {
+                    unfinished = rsUnfinished.getInt(1);
+                }
+            }
+
+            return unfinished == 0;
         } catch (Exception e) {
             e.printStackTrace();
         }

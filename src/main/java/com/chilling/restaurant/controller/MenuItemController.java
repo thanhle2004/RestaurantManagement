@@ -16,6 +16,10 @@ public class MenuItemController {
         return menuDAO.getAllItemsByType("drink");
     }
     
+    public List<MenuItem> getDessertList() throws SQLException {
+        return menuDAO.getAllItemsByType("dessert");
+    }
+    
     public MenuItem getItemById(int id) throws SQLException {
         return menuDAO.getItemById(id);
     }
