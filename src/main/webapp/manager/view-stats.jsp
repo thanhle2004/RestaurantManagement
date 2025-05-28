@@ -89,7 +89,7 @@
             .then(data => {
                 document.getElementById("totalMeals").textContent = data.totalMeals;
                 document.getElementById("totalDishes").textContent = data.totalDishes;
-                document.getElementById("totalRevenue").textContent = new Intl.NumberFormat('vi-VN').format(data.totalRevenue) + " VND";
+                document.getElementById("totalRevenue").textContent = new Intl.NumberFormat('vi-VN').format(data.totalRevenue) + " USD";
 
                 const ctx = document.getElementById('revenueChart').getContext('2d');
                 if (window.revenueChart && typeof window.revenueChart.destroy === 'function') {
@@ -101,7 +101,7 @@
                     data: {
                         labels: data.chartLabels,
                         datasets: [{
-                            label: 'Revenue (VND)',
+                            label: 'Revenue (USD)',
                             data: data.chartData,
                             backgroundColor: 'rgba(54, 162, 235, 0.6)',
                             borderColor: 'rgba(54, 162, 235, 1)',

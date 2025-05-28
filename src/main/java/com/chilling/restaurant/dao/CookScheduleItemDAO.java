@@ -124,6 +124,27 @@ public class CookScheduleItemDAO {
         }
         return false;
     }
+    
+    public boolean areCooking(int schlistId) {
+        String sql = "SELECT COUNT(*) FROM cookscheduleitem WHERE schlist_id = ? AND status = 'cooking'";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, schlistId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error checking cooking status: " + e.getMessage());
+        }
+
+        return false;
+    }
 
     public boolean hasCookingStatus(int schlistId) {
         String sql = "SELECT COUNT(*) FROM cookscheduleitem WHERE schlist_id = ? AND status = 'cooking'";

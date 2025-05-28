@@ -51,6 +51,21 @@ public class CookScheduleListDAO {
         }
         return null;
     }
+    
+    public int getScheduleIdByOlistId(int olistId) {
+        String sql = "SELECT schlist_id FROM CookScheduleList WHERE olist_id = ?";
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, olistId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("schlist_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
     public CookScheduleList createSchedule(CookScheduleList schedule) {
         String sql = "INSERT INTO CookScheduleList (olist_id, user_id, status) VALUES (?, ?, ?)";

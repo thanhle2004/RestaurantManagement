@@ -55,7 +55,6 @@ public class ChefScheduleServlet extends HttpServlet {
             }
             request.setAttribute("orderLists", orderLists);
 
-            // Nếu có tham số olistId, hiển thị form để chọn món và nhập thời gian
             String olistIdStr = request.getParameter("olistId");
             if (olistIdStr != null) {
                 int olistId = Integer.parseInt(olistIdStr);
