@@ -13,6 +13,41 @@
     <title>Chilling Restaurant</title>
     <link rel="stylesheet" href="../assets/table-management-style/styles9.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+    html, body {
+      height: 100%;
+      overflow: auto;
+      scrollbar-width: none; /* Firefox */
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Edge */
+    }
+    </style>
+    <script>
+        function enterFullScreen() {
+            const elem = document.documentElement; 
+
+            if (elem.requestFullscreen) {
+              elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { 
+              elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { 
+              elem.msRequestFullscreen();
+            }
+        }
+
+        function exitFullScreen() {
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { 
+              document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { 
+              document.msExitFullscreen();
+            }
+        }
+    </script>
 </head>
 <header class="manager-header">
     <a href="manager-dashboard.jsp" class="back-button header-back">← Back</a>
