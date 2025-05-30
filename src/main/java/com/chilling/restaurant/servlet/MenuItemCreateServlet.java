@@ -1,7 +1,7 @@
 package com.chilling.restaurant.servlet;
 
 import com.chilling.restaurant.config.CloudinaryConfig;
-import com.chilling.restaurant.controller.MenuItemController;
+import com.chilling.restaurant.dao.MenuDAO;
 import com.chilling.restaurant.model.MenuItem;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -71,8 +71,8 @@ public class MenuItemCreateServlet extends HttpServlet {
             newItem.setItemImgPath(imageUrl);
             newItem.setItemImgPublicId(publicId);
 
-            MenuItemController controller = new MenuItemController();
-            controller.addMenuItem(newItem);
+            MenuDAO menuDAO = new MenuDAO();
+            menuDAO.addMenuItem(newItem);
 
             response.sendRedirect("menu-management");
 

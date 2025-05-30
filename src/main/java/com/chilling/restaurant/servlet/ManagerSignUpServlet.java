@@ -1,6 +1,5 @@
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.ChefController;
 import com.chilling.restaurant.dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;

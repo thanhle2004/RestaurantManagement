@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.MenuItemController;
-import com.chilling.restaurant.dao.CookScheduleItemDAO;
 import com.chilling.restaurant.dao.CookScheduleListDAO;
 import com.chilling.restaurant.dao.MealDAO;
+import com.chilling.restaurant.dao.MenuDAO;
 import com.chilling.restaurant.dao.OrderItemDAO;
 import com.chilling.restaurant.dao.OrderListDAO;
 import com.chilling.restaurant.dao.TableDAO;
@@ -87,11 +82,13 @@ public class TableMenuServlet extends HttpServlet {
                 }
             }
 
-            MenuItemController menuItemController = new MenuItemController();
-            List<MenuItem> foodList = menuItemController.getFoodList();
-            List<MenuItem> drinkList = menuItemController.getDrinkList();
+            MenuDAO menuDAO = new MenuDAO();
+            List<MenuItem> foodList = menuDAO.getAllItemsByType("food");
+            List<MenuItem> drinkList = menuDAO.getAllItemsByType("drink");
+            List<MenuItem> dessertList = menuDAO.getAllItemsByType("dessert");
             request.setAttribute("foodList", foodList);
             request.setAttribute("drinkList", drinkList);
+            request.setAttribute("dessert", dessertList);
 
             List<OrderItem> orderItems = orderItemDAO.getItemsByOrderListId(orderList.getOrderList_id());
             session.setAttribute("orderItems", orderItems);

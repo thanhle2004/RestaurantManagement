@@ -1,6 +1,6 @@
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.ChefController;
+import com.chilling.restaurant.dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,8 +22,8 @@ public class ChefRegisterServlet extends HttpServlet {
         String role = "chef";
 
         try {
-            ChefController chefController = new ChefController();
-            chefController.insertChef(username, password, fname, lname, phone, role);
+            UserDAO userDAO = new UserDAO();
+            userDAO.insertUser(username, password, fname, lname, phone, role);
 
             response.sendRedirect("chef-management");
 

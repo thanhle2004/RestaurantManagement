@@ -1,6 +1,6 @@
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.ChefController;
+import com.chilling.restaurant.dao.UserDAO;
 import com.chilling.restaurant.model.User;
 import com.chilling.restaurant.utils.AuthUtil;
 import java.io.IOException;
@@ -19,8 +19,8 @@ public class ChefEditServlet extends HttpServlet {
         
         int id = Integer.parseInt(request.getParameter("id"));
         try {
-            ChefController chefController = new ChefController();
-            User user = chefController.getUserById(id);
+            UserDAO userDAO = new UserDAO();
+            User user = userDAO.getUserById(id);
             request.setAttribute("user", user);
             request.getRequestDispatcher("/manager/chef-edit.jsp").forward(request, response);
         } catch (Exception e) {
@@ -40,8 +40,8 @@ public class ChefEditServlet extends HttpServlet {
             user.setPhone(request.getParameter("phone"));
             user.setRole(request.getParameter("role"));
             
-            ChefController chefController = new ChefController();
-            chefController.updateUser(user);
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateUser(user);
             
             response.sendRedirect("chef-management");
         } catch (Exception e) {

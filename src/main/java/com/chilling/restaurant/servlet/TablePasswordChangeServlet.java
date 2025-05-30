@@ -4,9 +4,8 @@
  */
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.TableController;
+import com.chilling.restaurant.dao.TableDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,8 +23,8 @@ public class TablePasswordChangeServlet extends HttpServlet {
             throws ServletException, IOException {
         String password = request.getParameter("password");
         try {
-            TableController tableController = new TableController();
-            tableController.changePassword(password);
+            TableDAO tableDAO = new TableDAO();
+            tableDAO.changePassword(password);
             
             response.sendRedirect("table-management");
         } catch (Exception e) {

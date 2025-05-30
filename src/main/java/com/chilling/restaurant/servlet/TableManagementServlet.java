@@ -4,7 +4,7 @@
  */
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.TableController;
+import com.chilling.restaurant.dao.TableDAO;
 import com.chilling.restaurant.model.Table;
 import com.chilling.restaurant.utils.AuthUtil;
 import java.io.IOException;
@@ -24,12 +24,12 @@ public class TableManagementServlet extends HttpServlet {
         if (!AuthUtil.checkRole(request, response, "manager")) return;
 
         try {
-            TableController tableController = new TableController();
-            List<Table> tableTypeTwoList = tableController.getTableTypeTwoList();
+            TableDAO tableDAO = new TableDAO();
+            List<Table> tableTypeTwoList = tableDAO.getAllTablesByType(2);
             request.setAttribute("tableTypeTwoList", tableTypeTwoList);
-            List<Table> tableTypeFourList = tableController.getTableTypeFourList();
+            List<Table> tableTypeFourList = tableDAO.getAllTablesByType(4);
             request.setAttribute("tableTypeFourList", tableTypeFourList);
-            List<Table> tableTypeEightList = tableController.getTableTypeEightList();
+            List<Table> tableTypeEightList = tableDAO.getAllTablesByType(8);
             request.setAttribute("tableTypeEightList", tableTypeEightList);
             request.getRequestDispatcher("/manager/table-management.jsp").forward(request, response);
 

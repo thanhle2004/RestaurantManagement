@@ -4,7 +4,6 @@
  */
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.TableController;
 import com.chilling.restaurant.dao.TableDAO;
 import com.chilling.restaurant.model.Table;
 import com.chilling.restaurant.utils.DBUtil;
@@ -22,12 +21,12 @@ public class TableLoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            TableController tableController = new TableController();
-            List<Table> tableTypeTwoList = tableController.getTableTypeTwoList();
+            TableDAO tableDAO = new TableDAO();
+            List<Table> tableTypeTwoList = tableDAO.getAllTablesByType(2);
             request.setAttribute("tableTypeTwoList", tableTypeTwoList);
-            List<Table> tableTypeFourList = tableController.getTableTypeFourList();
+            List<Table> tableTypeFourList = tableDAO.getAllTablesByType(4);
             request.setAttribute("tableTypeFourList", tableTypeFourList);
-            List<Table> tableTypeEightList = tableController.getTableTypeEightList();
+            List<Table> tableTypeEightList = tableDAO.getAllTablesByType(8);
             request.setAttribute("tableTypeEightList", tableTypeEightList);
             request.getRequestDispatcher("table-login.jsp").forward(request, response);
         } catch (Exception e) {

@@ -5,7 +5,7 @@
 package com.chilling.restaurant.servlet;
 
 import com.chilling.restaurant.config.CloudinaryConfig;
-import com.chilling.restaurant.controller.MenuItemController;
+import com.chilling.restaurant.dao.MenuDAO;
 import com.chilling.restaurant.model.MenuItem;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -46,23 +46,19 @@ public class MenuUpdateServlet extends HttpServlet {
 
             double itemPrice = Double.parseDouble(itemPriceStr);
 
-            // Lấy thông tin món cũ để có public_id
-            MenuItemController controller = new MenuItemController();
-            MenuItem existingItem = controller.getItemById(itemId);
+            MenuDAO menuDAO = new MenuDAO();
+            MenuItem existingItem = menuDAO.getItemById(itemId);
 
             String imageUrl = existingItem.getItemImgPath();
             String publicId = existingItem.getItemImgPublicId();
 
-            // Kiểm tra xem người dùng có upload ảnh mới không
             Part filePart = request.getPart("image");
             String fileName = filePart.getSubmittedFileName();
 
             if (fileName != null && !fileName.isEmpty()) {
-                // Ghi tạm file ảnh mới
                 java.io.File tempFile = java.io.File.createTempFile("upload_", fileName);
                 filePart.write(tempFile.getAbsolutePath());
 
-                // Upload và ghi đè ảnh cũ bằng public_id cũ
                 Map uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.asMap(
                         "public_id", publicId,
                         "overwrite", true,
@@ -72,10 +68,8 @@ public class MenuUpdateServlet extends HttpServlet {
                 tempFile.delete();
 
                 imageUrl = (String) uploadResult.get("secure_url");
-                // publicId giữ nguyên
             }
 
-            // Cập nhật thông tin món ăn
             MenuItem updatedItem = new MenuItem();
             updatedItem.setItemId(itemId);
             updatedItem.setItemName(itemName);
@@ -85,7 +79,7 @@ public class MenuUpdateServlet extends HttpServlet {
             updatedItem.setItemImgPath(imageUrl);
             updatedItem.setItemImgPublicId(publicId);
 
-            controller.updateMenuItem(updatedItem);
+            menuDAO.updateMenuItem(updatedItem);
 
             response.sendRedirect("menu-management");
 

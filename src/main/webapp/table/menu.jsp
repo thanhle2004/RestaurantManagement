@@ -44,12 +44,12 @@
     html, body {
       height: 100%;
       overflow: auto;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none; 
     }
 
     html::-webkit-scrollbar,
     body::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Edge */
+      display: none;
     }
     </style>
     <script>

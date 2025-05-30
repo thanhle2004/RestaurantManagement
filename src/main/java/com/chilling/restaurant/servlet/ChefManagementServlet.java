@@ -4,7 +4,7 @@
  */
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.ChefController;
+import com.chilling.restaurant.dao.UserDAO;
 import com.chilling.restaurant.model.User;
 import com.chilling.restaurant.utils.AuthUtil;
 import java.io.IOException;
@@ -24,8 +24,8 @@ public class ChefManagementServlet extends HttpServlet {
         if (!AuthUtil.checkRole(request, response, "manager")) return;
 
         try {
-            ChefController chefController = new ChefController();
-            List<User> chefList = chefController.getAllChefs();
+            UserDAO userDAO = new UserDAO();
+            List<User> chefList = userDAO.getUserByRole("chef");
             request.setAttribute("chefList", chefList);
             request.getRequestDispatcher("/manager/chef-management.jsp").forward(request, response);
 

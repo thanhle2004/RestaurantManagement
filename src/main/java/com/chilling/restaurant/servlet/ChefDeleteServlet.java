@@ -19,8 +19,8 @@ public class ChefDeleteServlet extends HttpServlet {
         
         
         try {
-            UserDAO chefDAO = new UserDAO();
-            chefDAO.deleteChef(id);
+            UserDAO userDAO = new UserDAO();
+            userDAO.deleteChef(id);
 
             response.sendRedirect("chef-management");
 

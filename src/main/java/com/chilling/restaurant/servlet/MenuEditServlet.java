@@ -4,7 +4,7 @@
  */
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.MenuItemController;
+import com.chilling.restaurant.dao.MenuDAO;
 import com.chilling.restaurant.model.MenuItem;
 import com.chilling.restaurant.utils.AuthUtil;
 import java.io.IOException;
@@ -24,8 +24,8 @@ public class MenuEditServlet extends HttpServlet {
         
         int id = Integer.parseInt(request.getParameter("id"));
         try {
-            MenuItemController menuItemController = new MenuItemController();
-            MenuItem item = menuItemController.getItemById(id);
+            MenuDAO menuDAO = new MenuDAO();
+            MenuItem item = menuDAO.getItemById(id);
             request.setAttribute("item", item);
             request.getRequestDispatcher("/manager/menu-edit.jsp").forward(request, response);
         } catch (Exception e) {

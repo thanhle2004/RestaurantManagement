@@ -4,7 +4,7 @@
  */
 package com.chilling.restaurant.servlet;
 
-import com.chilling.restaurant.controller.MenuItemController;
+import com.chilling.restaurant.dao.MenuDAO;
 import com.chilling.restaurant.model.MenuItem;
 import com.chilling.restaurant.utils.AuthUtil;
 import java.io.IOException;
@@ -24,11 +24,13 @@ public class MenuManagementServlet extends HttpServlet {
         if (!AuthUtil.checkRole(request, response, "manager")) return;
 
         try {
-            MenuItemController menuItemController = new MenuItemController();
-            List<MenuItem> foodList = menuItemController.getFoodList();
+            MenuDAO menuDAO = new MenuDAO();
+            List<MenuItem> foodList = menuDAO.getAllItemsByType("food");
             request.setAttribute("foodList", foodList);
-            List<MenuItem> drinkList = menuItemController.getDrinkList();
+            List<MenuItem> drinkList = menuDAO.getAllItemsByType("drink");
             request.setAttribute("drinkList", drinkList);
+            List<MenuItem> dessertList = menuDAO.getAllItemsByType("dessert");
+            request.setAttribute("dessertList", dessertList);
             request.getRequestDispatcher("/manager/menu-management.jsp").forward(request, response);
 
         } catch (Exception e) {
