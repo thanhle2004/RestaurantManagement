@@ -69,7 +69,7 @@
                 <select name="type">
                     <option value="food">Food</option>
                     <option value="drink">Drink</option>
-                    <option value="desseart">Dessert</option>
+                    <option value="dessert">Dessert</option>
                 </select>
             </label>
 

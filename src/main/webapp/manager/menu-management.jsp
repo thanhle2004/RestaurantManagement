@@ -4,6 +4,7 @@
 <%
     List<MenuItem> foods = (List<MenuItem>) request.getAttribute("foodList");
     List<MenuItem> drinks = (List<MenuItem>) request.getAttribute("drinkList");
+    List<MenuItem> desserts = (List<MenuItem>) request.getAttribute("dessertList");
 %>
 
 <html>
@@ -113,6 +114,39 @@
             <td>
                 <a href="menu-edit?id=<%= drink.getItemId() %>">Edit</a>
                 <a href="menu-delete?id=<%= drink.getItemId() %>" onclick="return confirm('Delete this drink?')">Delete</a>
+            </td>
+        </tr>
+        <%
+            }
+        %>
+    </table>
+    
+    <h3>Dessert</h3>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>N.0</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Time Cook</th>
+            <th>Action</th>
+        </tr>
+        <%
+            int dessertCount = 0;
+            for (MenuItem dessert : desserts) {
+                dessertCount++;
+        %>
+        <tr>
+            <td><%= dessertCount %></td>
+            <td>
+                <img src="<%= dessert.getItemImgPath() %>" width="100">
+            </td>
+            <td><%= dessert.getItemName() %></td>
+            <td><%= dessert.getItemPrice() %></td>
+            <td><%= dessert.getItemTimeCook() %></td>
+            <td>
+                <a href="menu-edit?id=<%= dessert.getItemId() %>">Edit</a>
+                <a href="menu-delete?id=<%= dessert.getItemId() %>" onclick="return confirm('Delete this dessert?')">Delete</a>
             </td>
         </tr>
         <%

@@ -60,7 +60,7 @@
             </form>
             
             <div class="forgot-password-link">
-                <a href="/forgot-password.jsp">Forgot password?</a>
+                <a href="forgot-password.jsp">Forgot password?</a>
             </div>
             
             <% boolean managerExists = Boolean.TRUE.equals(request.getAttribute("managerExists")); %>

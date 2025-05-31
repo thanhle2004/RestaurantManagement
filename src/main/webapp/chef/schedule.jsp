@@ -96,7 +96,7 @@
                 <th>Status</th>
             </tr>
             <% for (OrderItem orderItem : orderItems) { %>
-                <% CookScheduleItem scheduleItem = cookScheduleItemDAO.getItemByOitemIdAndSchlistId(orderItem.getOrderItem_id(), schedule.getSchlistId()); %>
+                <% CookScheduleItem scheduleItem = cookScheduleItemDAO.getItemByOitemId(orderItem.getOrderItem_id()); %>
                 <% if (scheduleItem == null) {
                     scheduleItem = new CookScheduleItem();
                     scheduleItem.setOitemId(orderItem.getOrderItem_id());

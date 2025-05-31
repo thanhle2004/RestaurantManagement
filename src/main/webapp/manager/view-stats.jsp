@@ -38,45 +38,44 @@
             align-items: center;
             gap: 0.5rem;
         }
-    </style>
-    <style>
-    html, body {
-      height: 100%;
-      overflow: auto;
-      scrollbar-width: none; /* Firefox */
-    }
-
-    html::-webkit-scrollbar,
-    body::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Edge */
-    }
+        .no-data {
+            color: #888;
+            font-style: italic;
+        }
+        html, body {
+            height: 100%;
+            overflow: auto;
+            scrollbar-width: none; /* Firefox */
+        }
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
     </style>
     <script>
         function enterFullScreen() {
-            const elem = document.documentElement; 
-
+            const elem = document.documentElement;
             if (elem.requestFullscreen) {
-              elem.requestFullscreen();
-            } else if (elem.webkitRequestFullscreen) { 
-              elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { 
-              elem.msRequestFullscreen();
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
             }
         }
 
         function exitFullScreen() {
             if (document.exitFullscreen) {
-              document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) { 
-              document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { 
-              document.msExitFullscreen();
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
             }
         }
     </script>
 </head>
 <body>
-
 <div class="dashboard">
     <div class="card">
         <h3>Total Meal</h3>
@@ -93,12 +92,11 @@
     <div class="card" style="grid-column: span 2;">
         <h3>Revenue Chart</h3>
         <div class="chart-controls">
-            <label>Group by:</label>
+            <label>Sort: </label>
             <select id="groupBy">
-                <option value="day">Day</option>
-                <option value="week">Week</option>
-                <option value="month" selected>Month</option>
-                <option value="year">Year</option>
+                <option value="day" selected>30 Days</option>
+                <option value="month"> 12 Months</option>
+                <option value="year">All Years</option>
             </select>
         </div>
         <canvas id="revenueChart" height="100"></canvas>
@@ -118,18 +116,55 @@
 </div>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const groupBySelect = document.getElementById("groupBy");
+        groupBySelect.addEventListener("change", function () {
+            console.log("Calling fetchRevenueData with groupBy:", this.value);
+            fetchRevenueData(this.value);
+        });
+
+        console.log("Calling fetchRevenueData with groupBy:", groupBySelect.value);
+        fetchRevenueData(groupBySelect.value);
+    });
+
     function fetchRevenueData(groupBy) {
-        fetch(`ViewStatsServlet?groupBy=${groupBy}`)
-            .then(response => response.json())
+        console.log("Called fetchRevenueData with:", groupBy);
+        fetch(`./ViewStatsServlet?groupBy=` + groupBy)
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.json();
+            })
             .then(data => {
-                document.getElementById("totalMeals").textContent = data.totalMeals;
-                document.getElementById("totalDishes").textContent = data.totalDishes;
-                document.getElementById("totalRevenue").textContent = new Intl.NumberFormat('vi-VN').format(data.totalRevenue) + " USD";
+                console.log("Received data:", data);
+                console.log("Chart labels:", data.chartLabels);
+                console.log("Chart data:", data.chartData);
+                console.log("Ratings:", data.ratingPercents, "Total votes:", data.ratingTotalVotes);
+                document.getElementById("totalMeals").textContent = data.totalMeals || 0;
+                document.getElementById("totalDishes").textContent = data.totalDishes || 0;
+                document.getElementById("totalRevenue").textContent = new Intl.NumberFormat('en-US').format(data.totalRevenue || 0) + " USD";
 
                 const ctx = document.getElementById('revenueChart').getContext('2d');
                 if (window.revenueChart && typeof window.revenueChart.destroy === 'function') {
                     window.revenueChart.destroy();
                 }
+
+                // Remove any existing no-data message
+                const existingMessage = ctx.canvas.parentNode.querySelector('.no-data');
+                if (existingMessage) existingMessage.remove();
+
+                if (!data.chartLabels || data.chartLabels.length === 0 || !data.chartData || data.chartData.length === 0) {
+                    ctx.canvas.style.display = 'none';
+                    const noDataMessage = document.createElement('p');
+                    noDataMessage.className = 'no-data';
+                    noDataMessage.textContent = 'No revenue data available for the selected period.';
+                    ctx.canvas.parentNode.appendChild(noDataMessage);
+                    return;
+                } else {
+                    ctx.canvas.style.display = 'block';
+                }
+
+                console.log("Chart labels:", data.chartLabels);
+                console.log("Chart data:", data.chartData);
 
                 window.revenueChart = new Chart(ctx, {
                     type: 'line',
@@ -140,7 +175,10 @@
                             data: data.chartData,
                             backgroundColor: 'rgba(54, 162, 235, 0.6)',
                             borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
+                            borderWidth: 1,
+                            fill: true,
+                            pointRadius: 2,
+                            pointHoverRadius: 5  
                         }]
                     },
                     options: {
@@ -148,7 +186,7 @@
                             y: {
                                 beginAtZero: true,
                                 ticks: {
-                                    callback: value => new Intl.NumberFormat('vi-VN').format(value)
+                                    callback: value => new Intl.NumberFormat('en-US').format(value)
                                 }
                             }
                         }
@@ -162,38 +200,39 @@
                 let averageRating = 0;
                 if (ratings.length === 5) {
                     averageRating = (
-                        5 * (ratings[0] || 0) +
-                        4 * (ratings[1] || 0) +
+                        1 * (ratings[0] || 0) +
+                        2 * (ratings[1] || 0) +
                         3 * (ratings[2] || 0) +
-                        2 * (ratings[3] || 0) +
-                        1 * (ratings[4] || 0)
+                        4 * (ratings[3] || 0) +
+                        5 * (ratings[4] || 0)
                     ) / 100;
                     averageRating = averageRating.toFixed(1);
                 }
                 document.getElementById("averageRating").textContent = averageRating;
 
                 for (let i = 0; i < 5; i++) {
-                    const star = 5 - i; 
-                    const percent = ratings[i];
+                    const star = i + 1;
+                    const percent = ratings[i] || 0;
                     const elem = document.getElementById("percent-" + star);
-                    if (elem && typeof percent === 'number') {
+                    if (elem) {
                         elem.textContent = percent + "%";
                     } else {
-                        console.warn("Error: percent-" + star, percent);
+                        console.warn("Missing rating element for star:", star);
                     }
                 }
             })
             .catch(err => {
                 console.error("Error fetching data:", err);
+                const ctx = document.getElementById('revenueChart').getContext('2d');
+                ctx.canvas.style.display = 'none';
+                const existingMessage = ctx.canvas.parentNode.querySelector('.no-data');
+                if (existingMessage) existingMessage.remove();
+                const errorMessage = document.createElement('p');
+                errorMessage.className = 'no-data';
+                errorMessage.textContent = 'Error loading revenue data.';
+                ctx.canvas.parentNode.appendChild(errorMessage);
             });
     }
-
-    document.getElementById("groupBy").addEventListener("change", function () {
-        fetchRevenueData(this.value);
-    });
-
-    fetchRevenueData("day");
 </script>
-
 </body>
 </html>

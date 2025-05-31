@@ -12,12 +12,11 @@ import java.util.logging.Logger;
 
 public class CookScheduleItemDAO {
 
-    public CookScheduleItem getItemByOitemIdAndSchlistId(int oitemId, int schlistId) {
-        String sql = "SELECT * FROM cookscheduleitem WHERE oitem_id = ? AND schlist_id = ?";
+    public CookScheduleItem getItemByOitemId(int oitemId) {
+        String sql = "SELECT * FROM cookscheduleitem WHERE oitem_id = ?";
         try (Connection con = DBUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, oitemId);
-            ps.setInt(2, schlistId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new CookScheduleItem(

@@ -42,11 +42,13 @@ public class VNPayPaymentServlet extends HttpServlet {
         int olist_id = Integer.parseInt(request.getParameter("orderId"));
 
         String amountStr = request.getParameter("amount");
+        String amountInUSDStr = request.getParameter("amountInUSD");
         double totalAmount = Double.parseDouble(amountStr);
+        double totalAmountInUSD = Double.parseDouble(amountInUSDStr);
         
         Bill bill = new Bill();
         bill.setOlist_id(olist_id);
-        bill.setAmount(totalAmount);
+        bill.setAmount(totalAmountInUSD/100);
         bill.setPayment_status("unpaid");
         
         BillDAO billDAO = new BillDAO();
@@ -77,7 +79,7 @@ public class VNPayPaymentServlet extends HttpServlet {
         vnp_Params.put("vnp_Command", VNPayConfig.vnp_Command);
         vnp_Params.put("vnp_TmnCode", VNPayConfig.vnp_TmnCode);
         vnp_Params.put("vnp_Amount", vnp_Amount);
-        vnp_Params.put("vnp_CurrCode", "USD");
+        vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", vnp_OrderInfo);
         vnp_Params.put("vnp_OrderType", "other");

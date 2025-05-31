@@ -101,7 +101,7 @@
             
             
             <% for (OrderItem item : summaryItems) { 
-                CookScheduleItem scheduleItem = cookScheduleItemDAO.getItemByOitemIdAndSchlistId(item.getOrderItem_id(), orderList.getOrderList_id());
+                CookScheduleItem scheduleItem = cookScheduleItemDAO.getItemByOitemId(item.getOrderItem_id());
                 int completionTime = (scheduleItem != null) ? scheduleItem.getOitemTimeCook() : 0;
             %>
             
@@ -110,7 +110,7 @@
                     <td><%= item.getItem().getItemName() %></td>
                     <td><%= item.getOrderItemQuantity() %></td>
                     <td>$<%= item.getItem().getItemPrice() %></td>
-                    <td><%= completionTime > 0 ? completionTime : "Estimating" %></td>
+                    <td><%= completionTime > 0 ? completionTime : item.getItem().getItemTimeCook() %></td>
                     <td>$<%= item.getOrderItemQuantity() * item.getItem().getItemPrice() %></td>
                 </tr>
             <% } %>
@@ -162,9 +162,10 @@
     %>
     
     <form action="submitOrder" method="post">
-        <input type="hidden" name="orderInfo" id="orderInfo" value="Thanh toan don hang <%= orderList.getOrderList_id() %>" />
+        <input type="hidden" name="orderInfo" id="orderInfo" value="Checkout <%= orderList.getOrderList_id() %>" />
         <input type="hidden" name="orderId" value="<%= orderList.getOrderList_id() %>" />
         <input type="hidden" name="amount" id="amount" value="<%= amount %>" />
+        <input type="hidden" name="amountInUSD" id="amountInUSD" value="<%= amountInUSD %>" />
         <button type="submit">Proceed to Payment</button>
     </form>
         
