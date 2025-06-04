@@ -1,0 +1,403 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.manager-header {
+    width: 100%;
+    padding: 15px 30px;
+    text-align: center;
+    position: relative;
+    height: 60px;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: orange;
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #e69500;
+}
+
+.back-button.header-back {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-bottom: 0;
+}
+
+.form-title {
+    font-size: 32px;
+    color: orange;
+    margin: 30px 0;
+}
+
+.section-title {
+    font-size: 28px;
+    color: orange;
+    margin-bottom: 15px;
+}
+
+.message {
+    font-size: 18px;
+    color: #00ff00;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.error {
+    font-size: 18px;
+    color: #ff0000;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.menu-wrapper {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    padding: 20px;
+    align-items: flex-start; /* Đảm bảo các phần tử con không bị kéo dài */
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-item {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.sidebar-item:hover {
+    background-color: #2a2a2a;
+}
+
+.sidebar-item.active {
+    background-color: orange;
+    color: #111;
+}
+
+.main-content {
+    flex: 1;
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.menu-item {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.menu-item:hover {
+    transform: scale(1.05);
+}
+
+.menu-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.menu-item h3 {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.menu-item .price {
+    font-size: 16px;
+    color: orange;
+    margin-bottom: 10px;
+}
+
+.add-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: orange;
+    color: #111;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: orangered;
+}
+
+.order-sidebar {
+    width: 300px;
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: white;
+    height: auto; /* Chiều cao tự động theo nội dung */
+}
+
+.order-sidebar p {
+    font-size: 16px;
+}
+
+.order-type {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.order-type label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white;
+}
+
+.order-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* Xóa flex: 1 và overflow-y để danh sách món ăn không chiếm không gian thừa */
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.order-item-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.order-item-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.order-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.order-item-details h3 {
+    font-size: 16px;
+    margin: 0;
+    color: orange;
+}
+
+.order-item-details .price {
+    font-size: 14px;
+    color: white;
+    margin: 0;
+}
+
+.quantity-btn svg:hover {
+    fill: orange;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1px;
+    color: orange;
+}
+
+.quantity-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quantity {
+    font-size: 14px;
+    color: white;
+}
+
+.order-summary {
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    color: white;
+}
+
+.summary-divider {
+    border: 0;
+    border-top: 1px dashed #e0e0e0;
+    margin: 10px 0;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 18px;
+    color: orange;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: orange;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #e65c00;
+}
+
+.empty-order {
+    color: #666;
+    font-size: 16px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .form-title {
+        font-size: 28px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .menu-wrapper {
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .sidebar {
+        width: 180px;
+    }
+
+    .order-sidebar {
+        width: 280px;
+    }
+}
+
+@media (max-width: 900px) {
+    .menu-wrapper {
+        flex-direction: column;
+        align-items: stretch; /* Đảm bảo các phần tử con chiếm toàn bộ chiều rộng */
+    }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sidebar-item {
+        flex: 1;
+        text-align: center;
+    }
+
+    .order-sidebar {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .form-title {
+        font-size: 24px;
+    }
+
+    .section-title {
+        font-size: 20px;
+    }
+
+    .menu-item h3 {
+        font-size: 16px;
+    }
+
+    .menu-item .price {
+        font-size: 14px;
+    }
+
+    .add-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .order-item-details h3 {
+        font-size: 14px;
+    }
+
+    .order-item-details .price {
+        font-size: 12px;
+    }
+
+    .summary-total {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,88 @@
+body {
+    background-color: black;
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 70px;
+}
+
+.manager-header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    padding: 20px 30px;
+    background-color: black;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #e69500;
+}
+
+.back-button.header-back {
+    position: relative;
+    margin-bottom: 0;
+}
+
+.title {
+    margin-bottom: 50px;
+    font-size: 70px;
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+.button-row {
+    display: flex;
+    gap: 30px;
+}
+
+
+.custom-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 25vw;
+    height: 6rem;
+    background: white;
+    color: black;
+    border: 3px solid black;
+    border-radius: 999px;
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 10px 0 orange;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-align: center;
+}
+
+.custom-button:hover {
+    transform: translateY(6px);
+    box-shadow: 0 6px 0 black;
+}

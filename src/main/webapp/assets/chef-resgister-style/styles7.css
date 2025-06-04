@@ -1,0 +1,160 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+.container {
+    display: flex;
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+    width: 120vh;
+  border-radius: 12px;
+
+}
+
+    .sidebar {
+        background-color: #1a1a1a;
+        width: 250px;
+        padding: 1rem;
+    }
+
+
+
+    .sidebar-link {
+        display: flex; 
+        align-items: center; 
+        color: #ccc;
+        text-decoration: none;
+        padding: 2rem;
+        transition: color 0.3s;
+        font-size: 1.2rem;
+    }
+    
+    .sidebar-link-active {
+    color: orange;
+    font-weight: bold;
+    border-left: 4px solid orange;
+    display: flex; 
+    align-items: center; 
+    text-decoration: none;
+    padding: 2rem 1.8rem;
+    transition: color 0.3s;
+    font-size: 1.2rem;
+
+    }
+    
+    .sidebar a svg {
+    margin-right: 0.5rem; 
+}
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar a:hover {
+        background-color: #ff9933;
+        color: #fff;
+        fill:white;
+    }
+    .sidebar-link-active svg{
+        fill:orange;
+    }
+    
+    .sidebar a:hover svg {
+    fill: #fff; /* SVG turns white on hover for all links, including active */
+}
+
+
+.form-title {
+  font-size: 32px;
+  color: orange;
+  margin: 30px 0;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  background-color: #111;
+  padding: 30px;
+}
+
+
+
+.form-container label {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.form-container label span {
+  display: block;
+  margin-bottom: 6px;
+  color: orange;
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-container input:focus {
+  border-color: orange;
+}
+
+.form-container input[readonly] {
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+.custom-button {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  margin-top: 10px;
+  background: orange;
+  color: black;
+  border: 3px solid #111;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 8px 0 #111;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.custom-button:hover {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 #111;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 20px 10px;
+  }
+  .form-title {
+    font-size: 28px;
+  }
+  .form-container {
+    padding: 20px;
+  }
+  .custom-button {
+    padding: 12px 0;
+    font-size: 1rem;
+  }
+}
