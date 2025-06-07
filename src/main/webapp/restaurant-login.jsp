@@ -158,6 +158,27 @@
                 }, 3000);
             }
 
+            const signupForm = document.querySelector('#signup-form form');
+            if (signupForm) {
+                signupForm.addEventListener('submit', function (event) {
+                    const password = document.getElementById('signup-password').value;
+                    const phone = document.getElementById('phone').value;
+
+                    if (password.length < 8 ) {
+                        alert('Password must be at least 8 characters long.');
+                        event.preventDefault();
+                        return;
+                    }
+
+                    const phonePattern = /^\d{10}$/;
+                    if (!phonePattern.test(phone)) {
+                        alert('Phone number must be exactly 10 digits.');
+                        event.preventDefault();
+                        return;
+                    }
+                });
+            }
+
             // Password matching validation
             const resetForm = document.getElementById('reset-password-form-element');
             if (resetForm) {
