@@ -7,7 +7,7 @@ A full-stack web application for managing restaurant operations including custom
 
 This project is continuously deployed using **Railway** from GitHub. Every push to the `main` branch triggers an automatic deployment.
 
-🔗 **Live Website:** [https://your-app-name.up.railway.app](https://your-app-name.up.railway.app)
+🔗 **Live Website:** [https://restaurantmanagement-production-47f9.up.railway.app/](https://restaurantmanagement-production-47f9.up.railway.app/)
 
 ---
 
