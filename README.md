@@ -1,8 +1,12 @@
 # 🍽️ Chilling Restaurant - Restaurant Management System
 
-A full-stack web application for managing restaurant operations including customer orders, chef schedules, menu, and manager dashboards.
+> 📚 *Final Project for "Web Application Development"*  
+> 🎓 *School of Computer Science and Engineering*  
+> 🌐 *International University - Vietnam National University HCM*  
+> 👨‍🏫 *Advisor: Assoc. Prof. Nguyen Van Sinh*
 
 ---
+
 ## 🚀 Deployment
 
 This project is continuously deployed using **Railway** from GitHub. Every push to the `main` branch triggers an automatic deployment.
