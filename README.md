@@ -3,6 +3,13 @@
 A full-stack web application for managing restaurant operations including customer orders, chef schedules, menu, and manager dashboards.
 
 ---
+## 🚀 Deployment
+
+This project is continuously deployed using **Railway** from GitHub. Every push to the `main` branch triggers an automatic deployment.
+
+🔗 **Live Website:** [https://your-app-name.up.railway.app](https://your-app-name.up.railway.app)
+
+---
 
 ## 📖 Project Overview
 
@@ -43,7 +50,7 @@ Traditional restaurant operations are often inefficient and error-prone. This sy
 - **Cloud & Tools:**
   - 🌥️ **Cloudinary** – Image hosting
   - 🔌 **VNPay SDK** – Payment integration
-  - 🐘 **Railway** – Cloud-hosted MySQL
+  - 🌐 **Railway** – Deploy full-stack web app from GitHub (CI/CD)
   - 🐱 **GitHub** – Version control & collaboration
   - 🧠 **NetBeans**, **MySQL Workbench**
   - 📄 **Google Docs**, **Canva**, **RelaX** – Documentation & design
